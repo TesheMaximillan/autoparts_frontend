@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab:wght@300;700&display=swap');
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --white: rgb(255, 255, 255);
+  --light-grey: rgb(250, 250, 252);
+  --warm-grey: rgb(140, 140, 142);
+  --dark-grey: rgb(100, 100, 102);
+  --color-primary: rgb(30, 30, 40);
+  --color-primary-2: rgb(32, 32, 42);
+  --color-primary-dark: rgb(25, 25, 35);
+  --color-secondary: rgb(255, 193, 7);
+  --color-secondary-dark: rgb(255, 160, 0);
+  --color-danger: rgb(232, 0, 0);
+  --color-success: rgb(0, 192, 0);
+}
+
+// ///////////////////////////// Global Reset
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; // 1rem = 10px, 10px/16px = 62.5%
+
+  @media (max-width: 768px) {
+    font-size: 56.25%; // 1rem = 10px, 10px/16px = 56.25%
+  }
+
+  @media (max-width: 560) {
+    font-size: 50%; // 1rem = 10px, 10px/16px = 50%
+  }
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  font-size: 1.6rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 560) {
+    font-size: 1.4rem;
+  }
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 560) {
+    font-size: 1.5rem;
+  }
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 560) {
+    font-size: 1.25rem;
+  }
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 560) {
+    font-size: 1rem;
+  }
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--light-grey);
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 560) {
+    font-size: 0.8rem;
+  }
+}
+
+h5 {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 560) {
+    font-size: 0.6rem;
+  }
+}

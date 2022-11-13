@@ -17,7 +17,16 @@ const fetchProducts = createAsyncThunk(
 
 const createProduct = createAsyncThunk(
   'product/createProduct',
-  async (product, thunkAPI) => {
+  async (data, thunkAPI) => {
+    const product = {
+      name: data.name,
+      part_number: data.partNumber,
+      category_id: data.category,
+      stock_id: data.stock,
+      cost: data.cost,
+      selling: data.selling,
+      quantity: data.quantity,
+    };
     try {
       const response = await api.post('/products', product, { withCredentials: true });
       return response.data;

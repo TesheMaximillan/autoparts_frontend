@@ -1,0 +1,130 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &Main {
+    width: 50vw;
+    min-height: 40vh;
+    padding: 9rem 0 0 0;
+    display: flex;
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    transform: translateY(-7.5rem);
+
+    form {
+      width: 50%;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+
+      input {
+        width: 100%;
+        height: 3rem;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border: 1px solid var(--dark-grey);
+        border-radius: 0.25rem;
+        font-family: inherit;
+        font-weight: 700;
+        outline: none;
+        transition: all 0.2s ease-in-out;
+
+        &::placeholder {
+          color: var(--dark-grey);
+          font-weight: 400;
+        }
+
+        &:hover,
+        &:focus {
+          border: 1px solid var(--color-primary);
+        }
+
+        &:focus {
+          box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+      }
+
+      p {
+        margin-top: 1rem;
+        text-align: center;
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--color-primary);
+
+        span {
+          color: var(--color-danger);
+          cursor: pointer;
+        }
+      }
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      padding: 2rem;
+
+      &Title {
+        text-align: center;
+        color: var(--color-primary);
+        border-radius: 0.2rem;
+        font-size: 2.3rem;
+        padding: 0.5rem;
+      }
+
+      p {
+        font-size: 1.6rem;
+        line-height: 1.2;
+        color: var(--dark-grey);
+        text-align: justify;
+
+        span {
+          color: var(--color-primary);
+          display: block;
+          font-weight: 700;
+          text-align: center;
+          margin-top: 3rem;
+        }
+      }
+    }
+  }
+}
+
+.logo {
+  width: 15rem;
+  height: 15rem;
+  border: 0.5rem solid var(--white);
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  border-radius: 50%;
+  background-color: var(--color-danger);
+  background-image: url(../assets/images/toyota-logo-2.PNG);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: rotation 30s infinite linear;
+  z-index: 1;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.loadiing {
+  color: var(--color-success) !important;
+  border: 1px solid var(--color-success);
+  padding: 1rem 2rem;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.8rem;
+}

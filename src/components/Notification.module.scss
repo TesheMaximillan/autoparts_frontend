@@ -1,0 +1,22 @@
+.notification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.success {
+  color: var(--color-primary);
+  border: 0.2rem dashed var(--color-primary);
+  border-radius: 0.2rem;
+  margin: 2rem 0;
+}
+
+.errors {
+  height: 5rem;
+  color: var(--color-danger);
+  border: 0.1rem solid var(--color-danger);
+  background-color: var(--color-danger-light);
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+}

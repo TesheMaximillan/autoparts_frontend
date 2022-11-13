@@ -39,6 +39,10 @@ const userSlice = createSlice({
       state.isLoggedIn = payload.logged_in;
       state.user = payload.user;
     },
+    [checkLoginStatus.rejected]: (state) => {
+      state.isLoggedIn = false;
+      state.user = null;
+    },
   },
 });
 

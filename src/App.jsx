@@ -5,6 +5,7 @@ import './App.scss';
 import RequireAuth from './components/RequireAuth';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Product from './pages/Product';
 import Register from './pages/Register';
 import { fetchCategories } from './store/actions/categoryActions';
 import { fetchCustomers } from './store/actions/customerActions';
@@ -20,40 +21,35 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchCategories());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCustomers());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchPurchases());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchSales());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchStocks());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchTransfers());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchVendors());
-  }, [dispatch]);
-
-  window.addEventListener('beforeunload', (e) => {
-    e.preventDefault();
-    localStorage.removeItem('LOGGED_IN');
-  });
+  }, []);
 
   return (
     <Router>
@@ -62,6 +58,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/products" element={<Product />} />
         </Route>
       </Routes>
     </Router>

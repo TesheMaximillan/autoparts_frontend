@@ -1,21 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab:wght@300;700&display=swap');
 
-::-webkit-scrollbar {
-  display: none;
-}
-
 :root {
   --white: rgb(255, 255, 255);
-  --light-grey: rgb(250, 250, 252);
+  --light-grey: #ECEEF3;
   --warm-grey: rgb(140, 140, 142);
   --dark-grey: rgb(100, 100, 102);
-  --color-primary: rgb(30, 30, 40);
-  --color-primary-2: rgb(32, 32, 42);
+  --color-primary: #4d5992;
+  --color-primary-1: #6d779e;
+  --color-primary-2: #8d95aa;
+  --color-primary-3: #e8ecff;
   --color-primary-dark: rgb(25, 25, 35);
   --color-secondary: rgb(255, 193, 7);
   --color-secondary-dark: rgb(255, 160, 0);
   --color-danger: rgb(232, 0, 0);
+  --color-danger-light: rgb(255, 211, 211);
   --color-success: rgb(0, 192, 0);
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 // ///////////////////////////// Global Reset
@@ -49,6 +52,7 @@ body {
   font-weight: 400;
   line-height: 1.6;
   font-size: 1.6rem;
+  background-color: var(--light-grey);
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
@@ -132,4 +136,79 @@ h5 {
   @media (max-width: 560) {
     font-size: 0.6rem;
   }
+}
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.2rem;
+  font-family: inherit;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+
+  &__default {
+    background-color: var(--color-primary);
+    color: var(--white);
+
+    &:hover {
+      background-color: var(--color-primary-1);
+    }
+  }
+
+  &__primary {
+    background-color: var(--color-primary);
+    color: var(--white);
+
+    &:hover {
+      background-color: var(--color-primary-1);
+    }
+  }
+
+  &__sucess {
+
+  }
+
+  &__warning {
+
+  }
+
+  &__danger {
+
+  }
+
+  &__logout {
+    background-color: var(--color-danger);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: var(--color-danger-light);
+      color: var(--color-danger);
+    }
+  }
+}
+
+.active {
+  background-color: var(--color-primary);
+  color: var(--white) !important;
+}
+
+a {
+  text-decoration: none;
+  color: var(--dark-grey)
 }

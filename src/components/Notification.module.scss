@@ -1,5 +1,6 @@
 .notification {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -13,7 +14,7 @@
 }
 
 .errors {
-  height: 5rem;
+  height: fit-content;
   color: var(--color-danger);
   border: 0.1rem solid var(--color-danger);
   background-color: var(--color-danger-light);

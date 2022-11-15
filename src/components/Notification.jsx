@@ -1,23 +1,25 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import styles from './Notification.module.scss';
 
 const { notification, success, errors } = styles;
 
-const Notification = (props) => {
-  const { message, error } = props;
-  const status = error ? errors : success;
+const Notification = () => {
+  const { message, isError } = useSelector((state) => state.ui.notification);
+  const status = isError ? errors : success;
 
   return (
-    <div className={`${notification} ${status}`}>
-      {message}
-    </div>
+    <>
+      <div className={`${notification} ${status}`}>
+        {Object.keys(message).map((key) => (
+          <p key={key}>
+            {`${key} ${message[key]}`}
+          </p>
+        ))}
+      </div>
+    </>
   );
-};
-
-Notification.propTypes = {
-  message: PropTypes.string.isRequired,
-  error: PropTypes.bool.isRequired,
 };
 
 export default Notification;

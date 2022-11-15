@@ -8,7 +8,7 @@ import Sidebar from '../components/Sidebar';
 import SubContainer from '../components/SubContainer';
 import Topbar from '../components/Topbar';
 import styles from './Product.module.scss';
-import LogoutBtn from '../components/LogoutBtn';
+import LogoutBtn from '../components/common/LogoutBtn';
 import AddProduct from '../components/products/AddProduct';
 
 const Product = () => {

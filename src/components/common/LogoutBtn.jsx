@@ -3,8 +3,8 @@ import { RiLogoutCircleFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { logoutUser } from '../store/actions/userActions';
-import { logout } from '../store/reducers/userReducer';
+import { logoutUser } from '../../store/actions/userActions';
+import { logout } from '../../store/reducers/userReducer';
 
 const LogoutBtn = ({ icon }) => {
   const dispatch = useDispatch();

@@ -21,35 +21,35 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchCategories());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchCustomers());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchPurchases());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchSales());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchStocks());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchTransfers());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchVendors());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

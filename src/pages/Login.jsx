@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import Notification from '../components/Notification';
+import Notification from '../components/common/Notification';
 import { loginUser } from '../store/actions/userActions';
 import styles from './Login.module.scss';
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import MainContainer from '../components/MainContainer';
-import Sidebar from '../components/Sidebar';
-import SubContainer from '../components/SubContainer';
-import Topbar from '../components/Topbar';
-import MainBody from '../components/MainBody';
+import MainContainer from '../components/common/MainContainer';
+import Sidebar from '../components/common/Sidebar';
+import SubContainer from '../components/common/SubContainer';
+import Topbar from '../components/common/Topbar';
+import MainBody from '../components/common/MainBody';
 import styles from './Dashboard.module.scss';
 
 const Dashboard = () => {

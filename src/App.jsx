@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.scss';
-import RequireAuth from './components/RequireAuth';
+import RequireAuth from './components/common/RequireAuth';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Product from './pages/Product';

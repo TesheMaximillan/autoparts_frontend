@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../store/actions/productActions';
 import styles from './AddProduct.module.scss';
 import ListProduct from './ListProduct';
-import Notification from '../Notification';
+import Notification from '../common/Notification';
 
 const AddProduct = () => {
   const categories = useSelector((state) => state.category.categories);

@@ -6,12 +6,12 @@ import { hideNotification, showNotification } from '../store/reducers/uiReducers
 import { login } from '../store/reducers/userReducer';
 
 const RequireAuth = () => {
-  const isLoggedIn = localStorage.getItem('LOGGED_IN');
+  const isLoggedIn = sessionStorage.getItem('LOGGED_IN');
   const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const loggedIn = localStorage.getItem('LOGGED_IN');
+    const loggedIn = sessionStorage.getItem('LOGGED_IN');
     if (loggedIn) dispatch(login());
   }, [dispatch]);
 

@@ -12,7 +12,7 @@ const LogoutBtn = ({ icon }) => {
 
   const handleLogout = () => {
     navigate('/');
-    localStorage.removeItem('LOGGED_IN');
+    sessionStorage.removeItem('LOGGED_IN');
     dispatch(logout());
     dispatch(logoutUser());
   };

@@ -11,7 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const loggedIn = localStorage.getItem('LOGGED_IN');
+  const loggedIn = sessionStorage.getItem('LOGGED_IN');
   const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState({ username: '', password: '' });
@@ -40,7 +40,7 @@ const Login = () => {
     dispatch(loginUser(user))
       .unwrap()
       .then(() => {
-        localStorage.setItem('LOGGED_IN', user.username);
+        sessionStorage.setItem('LOGGED_IN', user.username);
       })
       .catch(() => { setLoading(false); });
     setUser({

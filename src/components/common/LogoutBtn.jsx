@@ -1,14 +1,15 @@
 import React from 'react';
-import { RiLogoutCircleFill } from 'react-icons/ri';
+import { FaUserSlash } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { logoutUser } from '../../store/actions/userActions';
 import { logout } from '../../store/reducers/userReducer';
+import styles from './LogoutBtn.module.scss';
 
-const LogoutBtn = ({ icon }) => {
+const LogoutBtn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { logoutBtn, container } = styles;
 
   const handleLogout = () => {
     navigate('/');
@@ -18,15 +19,10 @@ const LogoutBtn = ({ icon }) => {
   };
 
   return (
-    <button type="button" className="btn btn__logout" onClick={handleLogout}>
-      <RiLogoutCircleFill className={icon} />
-      Logout
-    </button>
+    <div className={container}>
+      <FaUserSlash className={logoutBtn} onClick={handleLogout} />
+    </div>
   );
-};
-
-LogoutBtn.propTypes = {
-  icon: PropTypes.string.isRequired,
 };
 
 export default LogoutBtn;

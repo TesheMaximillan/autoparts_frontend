@@ -25,7 +25,11 @@ const loginUser = createAsyncThunk(
       const response = await api.post('/sessions', user, { withCredentials: true });
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: 'Invalid username or password', isError: true, isOpen: true }));
+      if (error.response.status === 401) {
+        thunkAPI.dispatch(showNotification({ message: { Invalid: ['Username or Password'] }, isError: true, isOpen: true }));
+      } else {
+        thunkAPI.dispatch(showNotification({ message: { Server: ['is not available'] }, isError: true, isOpen: true }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }

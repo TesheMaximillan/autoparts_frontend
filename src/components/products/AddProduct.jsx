@@ -1,24 +1,36 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState, useEffect } from 'react';
-import { IoAddCircle } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct } from '../../store/actions/productActions';
-import styles from './AddProduct.module.scss';
+import {
+  createProduct, deleteProduct, fetchStocksProducts, updateProduct,
+} from '../../store/actions/productActions';
 import ListProduct from './ListProduct';
 import Notification from '../common/Notification';
+import ListWrapper from '../common/ListWrapper';
+import FormProduct from './FormProduct';
+import InputWrapper from '../common/InputWrapper';
+import { resetUpdateProduct } from '../../store/reducers/productReducer';
 
 const AddProduct = () => {
   const categories = useSelector((state) => state.category.categories);
   const isOpen = useSelector((state) => state.ui.notification.isOpen);
   const stocks = useSelector((state) => state.stock.stocks);
-  const [errors, setErrors] = useState(false);
+  const products = useSelector((state) => state.product.products);
+  const productUpdate = useSelector((state) => state.product.productUpdate);
+  const id = products.length ? products[products.length - 1].id + 1 : 0;
+  const [currentId, setCurrentId] = useState(id);
+  const [idName, setIdName] = useState({
+    stock: stocks[0].name,
+    category: categories[0].name,
+  });
+  const [productId, setProductId] = useState('');
+  const [update, setUpdate] = useState(productUpdate.update);
   const dispatch = useDispatch();
-  const { container, form, formGroup } = styles;
   const initialState = {
     name: '',
     partNumber: '',
     brand: 'Toyota',
-    type: 'Original',
+    status: 'Original',
     category: categories[0].id,
     stock: stocks[0].id,
     cost: '',
@@ -27,17 +39,27 @@ const AddProduct = () => {
   };
 
   const [product, setProduct] = useState(initialState);
-  const [products, setProducts] = useState([]);
-
-  const {
-    name, partNumber, brand, type, category, stock, cost, selling, quantity,
-  } = product;
+  const [newProducts, setNewProducts] = useState([]);
+  const { cost, selling, quantity } = product;
 
   useEffect(() => {
-    if (isOpen) {
-      setErrors(!errors);
+    if (productUpdate.update) {
+      setProduct(productUpdate.product);
     }
-  }, [isOpen]);
+  }, [productUpdate]);
+
+  const undleUpdate = (id, product) => {
+    setUpdate(true);
+    setProduct(product);
+    setProductId(id);
+  };
+
+  const handleDelete = (id) => {
+    setNewProducts(newProducts.filter((product) => product.id !== id));
+    if (products.find((product) => product.id === id).id) {
+      dispatch(deleteProduct(id));
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,129 +70,68 @@ const AddProduct = () => {
     } else {
       setProduct({ ...product, [name]: value });
     }
+
+    const index = e.nativeEvent.target.selectedIndex;
+    if (name === 'category') {
+      setIdName({ ...idName, category: e.nativeEvent.target[index].text });
+    }
+    if (name === 'stock') {
+      setIdName({ ...idName, stock: e.nativeEvent.target[index].text });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProduct(product));
+    if (update) {
+      dispatch(updateProduct(product));
+      dispatch(fetchStocksProducts());
 
-    if (cost > 0 && selling >= cost && quantity > 0) {
-      setProducts([...products, product]);
-      setProduct(initialState);
+      if (cost > 0 && selling >= cost && quantity > 0) {
+        setNewProducts(
+          newProducts.map((item) => (item.id === productId
+            ? { ...product, categoryName: idName.category, stockName: idName.stock } : item)),
+        );
+        setUpdate(false);
+        setProductId('');
+        setProduct(initialState);
+        dispatch(resetUpdateProduct());
+      }
+    } else {
+      dispatch(createProduct(product));
+      dispatch(fetchStocksProducts());
+
+      if (cost > 0 && selling >= cost && quantity > 0) {
+        setCurrentId(currentId + 1);
+        setNewProducts([...newProducts, {
+          ...product,
+          id: currentId,
+          categoryName: idName.category,
+          stockName: idName.stock,
+        }]);
+        setProduct(initialState);
+      }
     }
   };
 
-  const categoryOptions = categories.length ? (
-    categories.map((category) => (
-      <option key={category.id} value={category.id}>
-        {category.name}
-      </option>
-    ))
-  ) : (
-    <option value="" />
-  );
-
-  const stockOptions = stocks.length ? (stocks.map((stock) => (
-    <option key={stock.id} value={stock.id}>
-      {stock.name}
-    </option>
-  ))) : (
-    <option value="" />
-  );
-
   return (
     <>
-      <div className={container}>
-        <form onSubmit={handleSubmit}>
-          <div className={form}>
-            <div className={formGroup}>
-              <label htmlFor="name">
-                Product Name
-                {' '}
-                <input type="text" id="name" placeholder="Enter product name" name="name" value={name} onChange={handleChange} required />
-              </label>
-
-            </div>
-            <div className={formGroup}>
-              <label htmlFor="partNumber">
-                Part Number
-                {' '}
-                <input type="text" id="partNumber" placeholder="Enter part number" name="partNumber" value={partNumber} onChange={handleChange} required />
-              </label>
-
-            </div>
-            <div className={formGroup}>
-              <label htmlFor="brand">
-                Brand
-                {' '}
-                <input type="text" id="brand" placeholder="Enter brand" name="brand" value={brand} onChange={handleChange} required />
-              </label>
-
-            </div>
-            <div className={formGroup}>
-              <label htmlFor="type">
-                Type
-                {' '}
-                <input type="text" id="type" placeholder="Enter part number" name="type" value={type} onChange={handleChange} required />
-              </label>
-
-            </div>
-            <div className={formGroup}>
-              <label htmlFor="category">
-                Category
-                {' '}
-                <select id="category" name="category" value={category} onChange={handleChange} required>
-                  {categoryOptions}
-                </select>
-
-              </label>
-
-            </div>
-            <div className={formGroup}>
-              <label htmlFor="stock">
-                Stock
-                {' '}
-                <select id="stock" name="stock" value={stock} onChange={handleChange} required>
-                  {stockOptions}
-                </select>
-
-              </label>
-
-            </div>
-            <div className={formGroup}>
-              <label htmlFor="cost">
-                Cost
-                {' '}
-                <input type="number" id="cost" placeholder="Enter cost price" name="cost" value={cost} onChange={handleChange} required />
-              </label>
-
-            </div>
-            <div className={formGroup}>
-              <label htmlFor="selling">
-                Selling Price
-                {' '}
-                <input type="number" id="selling" placeholder="Enter selling price" name="selling" value={selling} onChange={handleChange} required />
-              </label>
-
-            </div>
-            <div className={formGroup}>
-              <label htmlFor="quantity">
-                Quantity
-                {' '}
-                <input type="number" id="quantity" placeholder="Enter quantity" name="quantity" value={quantity} onChange={handleChange} required />
-              </label>
-
-            </div>
-          </div>
-          <button type="submit">
-            {' '}
-            <IoAddCircle />
-            {' '}
-          </button>
-        </form>
-      </div>
+      <InputWrapper>
+        <FormProduct
+          product={product}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          update={update}
+        />
+      </InputWrapper>
       {isOpen && <Notification />}
-      {products.length > 0 && <ListProduct products={products} />}
+      <ListWrapper height="AddProduct">
+        <ListProduct
+          products={newProducts}
+          undleUpdate={undleUpdate}
+          handleDelete={handleDelete}
+          update={update}
+        />
+      </ListWrapper>
     </>
   );
 };

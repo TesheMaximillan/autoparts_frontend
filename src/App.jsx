@@ -9,7 +9,7 @@ import Product from './pages/Product';
 import Register from './pages/Register';
 import { fetchCategories } from './store/actions/categoryActions';
 import { fetchCustomers } from './store/actions/customerActions';
-import { fetchProducts } from './store/actions/productActions';
+import { fetchProducts, fetchStocksProducts } from './store/actions/productActions';
 import { fetchPurchases } from './store/actions/purchaseActions';
 import { fetchSales } from './store/actions/saleActions';
 import { fetchStocks } from './store/actions/stockActions';
@@ -29,6 +29,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchStocksProducts());
   }, [dispatch]);
 
   useEffect(() => {

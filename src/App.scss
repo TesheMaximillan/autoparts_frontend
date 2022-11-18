@@ -15,6 +15,10 @@
   --color-danger: rgb(232, 0, 0);
   --color-danger-light: rgb(255, 211, 211);
   --color-success: rgb(0, 192, 0);
+
+  --shadow-1: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, gba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  --shadow-2: inset rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, inset rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  --shadow-3: inset rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, inset rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 ::-webkit-scrollbar {
@@ -188,18 +192,6 @@ h5 {
 
   &__danger {
 
-  }
-
-  &__logout {
-    background-color: var(--color-danger);
-    color: var(--white);
-    display: flex;
-    align-items: center;
-
-    &:hover {
-      background-color: var(--color-danger-light);
-      color: var(--color-danger);
-    }
   }
 }
 

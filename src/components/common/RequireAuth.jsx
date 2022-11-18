@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
-import { checkLoginStatus } from '../store/actions/userActions';
-import { hideNotification, showNotification } from '../store/reducers/uiReducers';
-import { login } from '../store/reducers/userReducer';
+import { checkLoginStatus } from '../../store/actions/userActions';
+import { hideNotification, showNotification } from '../../store/reducers/uiReducers';
+import { login } from '../../store/reducers/userReducer';
 
 const RequireAuth = () => {
   const isLoggedIn = sessionStorage.getItem('LOGGED_IN');

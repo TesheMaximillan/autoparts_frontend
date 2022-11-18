@@ -1,0 +1,17 @@
+.listWrapper {
+  width: 100%;
+  height: 73%;
+  overflow: auto;
+  margin-top: 2rem;
+  border-top: 0.5rem solid var(--light-grey);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-3);
+}
+
+.detailsHeight {
+  height: 73%;
+}
+
+.newHeight {
+  height: 53%;
+}

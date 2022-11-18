@@ -1,13 +1,23 @@
 .header {
   display: flex;
   justify-content: space-between;
+  padding: 0 1rem;
+
 
   .title {
     color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+
+    .icon {
+      font-size: 2.5rem;
+    }
+
   }
 
   .nav {
-    background-color: var(--color-primary-1);
     border-radius: 0.5rem;
     width: 70%;
     height: 60%;
@@ -28,21 +38,24 @@
         transition: all 0.4s ease-in-out;
         margin-right: 1rem;
 
-        a {
+        .navBtn {
+          padding: 0.5rem 1rem;
+          width: 18rem;
           display: flex;
+          justify-content: center;
           align-items: center;
-          background-color: var(--color-primary);
-          border-radius: 0.5rem;  
-          padding: 0.5rem 2rem;
-          text-align: center;
-          color: var(--light-grey);
-          font-size: 1.6rem;
-          font-weight: 700;
-          transition: all 0.4s ease-in-out;
+          color: var(--color-primary);
+          border-left: 1rem solid var(--color-primary);
+          transition: all 0.2s ease-in-out;
 
           &:hover {
-            color: var(--color-primary);
-            background-color: var(--light-grey);
+            transform: translateY(0);
+            color: var(--white);
+            background-color: var(--color-primary);
+          }
+
+          &:active {
+            transform: translateY(0.2rem);
           }
         }
       }

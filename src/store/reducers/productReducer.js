@@ -1,11 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  fetchProducts, createProduct, updateProduct, deleteProduct,
+  fetchProducts, createProduct, updateProduct, deleteProduct, fetchStocksProducts,
 } from '../actions/productActions';
 
 const initialState = {
+  stocksProducts: [],
   products: [],
+  productUpdate: {
+    update: false,
+    product: {},
+  },
   loading: false,
   error: null,
 };
@@ -13,6 +18,16 @@ const initialState = {
 const productSlice = createSlice({
   name: 'product',
   initialState,
+  reducers: {
+    setUpdateProduct: (state, { payload }) => {
+      state.productUpdate.update = true;
+      state.productUpdate.product = payload;
+    },
+    resetUpdateProduct: (state) => {
+      state.productUpdate.update = false;
+      state.productUpdate.product = {};
+    },
+  },
   extraReducers: {
     [fetchProducts.pending]: (state) => {
       state.loading = true;
@@ -22,6 +37,17 @@ const productSlice = createSlice({
       state.loading = false;
     },
     [fetchProducts.rejected]: (state, { payload }) => {
+      state.error = payload;
+      state.loading = false;
+    },
+    [fetchStocksProducts.pending]: (state) => {
+      state.loading = true;
+    },
+    [fetchStocksProducts.fulfilled]: (state, { payload }) => {
+      state.stocksProducts = payload;
+      state.loading = false;
+    },
+    [fetchStocksProducts.rejected]: (state, { payload }) => {
       state.error = payload;
       state.loading = false;
     },
@@ -64,3 +90,5 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
+
+export const { setUpdateProduct, resetUpdateProduct } = productSlice.actions;

@@ -2,6 +2,18 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/apiRequests';
 import { hideNotification, showNotification } from '../reducers/uiReducers';
 
+const setProduct = (data) => ({
+  name: data.name,
+  part_number: data.partNumber,
+  brand: data.brand,
+  status: data.status,
+  category_id: data.category,
+  stock_id: data.stock,
+  cost: data.cost,
+  selling: data.selling,
+  quantity: data.quantity,
+});
+
 const fetchProducts = createAsyncThunk(
   'product/fetchProducts',
   async (thunkAPI) => {
@@ -15,18 +27,23 @@ const fetchProducts = createAsyncThunk(
   },
 );
 
+const fetchStocksProducts = createAsyncThunk(
+  'product/fetchStocksProducts',
+  async (thunkAPI) => {
+    try {
+      const response = await api.get('/stocks_products', { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 const createProduct = createAsyncThunk(
   'product/createProduct',
   async (data, thunkAPI) => {
-    const product = {
-      name: data.name,
-      part_number: data.partNumber,
-      category_id: data.category,
-      stock_id: data.stock,
-      cost: data.cost,
-      selling: data.selling,
-      quantity: data.quantity,
-    };
+    const product = setProduct(data);
     try {
       const response = await api.post('/products', product, { withCredentials: true });
       return response.data;
@@ -46,16 +63,25 @@ const createProduct = createAsyncThunk(
 
 const updateProduct = createAsyncThunk(
   'product/updateProduct',
-  async (product, thunkAPI) => {
+  async (data, thunkAPI) => {
+    const product = setProduct(data);
     try {
-      const response = await api.put(`/products/${product.id}`, product, { withCredentials: true });
-      thunkAPI.dispatch(showNotification(
-        { message: response.data.message, isError: false, isOpen: true },
-      ));
-      setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
+      const response = await api.put(`/products/${data.id}`, product, { withCredentials: true });
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      } else {
+        thunkAPI.dispatch(showNotification({
+          message: { Bad: ['Request please contact your support'] },
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -67,13 +93,15 @@ const deleteProduct = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await api.delete(`/products/${id}`, { withCredentials: true });
-      thunkAPI.dispatch(showNotification(
-        { message: response.data.message, isError: false, isOpen: true },
-      ));
-      setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -81,5 +109,5 @@ const deleteProduct = createAsyncThunk(
 );
 
 export {
-  fetchProducts, createProduct, updateProduct, deleteProduct,
+  fetchProducts, createProduct, updateProduct, deleteProduct, fetchStocksProducts,
 };

@@ -1,0 +1,30 @@
+button {
+  font-size: 3rem;
+  padding: 0;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.addBtn {
+  color: var(--color-primary);
+}
+
+.updateBtn {
+  color: var(--color-secondary-dark);
+  border: 1px solid var(--color-secondary-dark);
+}

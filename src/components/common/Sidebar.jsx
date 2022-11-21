@@ -25,25 +25,25 @@ const Sidebar = () => {
       id: 3, name: 'Categories', path: '/dashboard/categories', icon: <BiCategory />,
     },
     {
-      id: 4, name: 'Sales', path: '/dashboard/sales', icon: <FcSalesPerformance />,
+      id: 4, name: 'Sales', path: '', icon: <FcSalesPerformance />,
     },
     {
-      id: 5, name: 'Purchases', path: '/dashboard/purchases', icon: <BiPurchaseTag />,
+      id: 5, name: 'Purchases', path: '', icon: <BiPurchaseTag />,
     },
     {
-      id: 6, name: 'Customers', path: '/dashboard/customers', icon: <ImUserTie />,
+      id: 6, name: 'Customers', path: '', icon: <ImUserTie />,
     },
     {
-      id: 7, name: 'Vendors', path: '/dashboard/vendors', icon: <ImUserTie />,
+      id: 7, name: 'Vendors', path: '', icon: <ImUserTie />,
     },
     {
-      id: 8, name: 'Stocks', path: '/dashboard/stocks', icon: <FaStore />,
+      id: 8, name: 'Stocks', path: '', icon: <FaStore />,
     },
     {
-      id: 9, name: 'Reports', path: '/dashboard/reports', icon: <IoDocuments />,
+      id: 9, name: 'Reports', path: '', icon: <IoDocuments />,
     },
     {
-      id: 10, name: 'Settings', path: '/dashboard/settings', icon: <AiFillSetting />,
+      id: 10, name: 'Settings', path: '', icon: <AiFillSetting />,
     },
   ];
 

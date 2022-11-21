@@ -1,5 +1,6 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { deleteProduct } from '../../store/actions/productActions';
@@ -8,32 +9,26 @@ import InputWrapper from '../common/InputWrapper';
 import ListWrapper from '../common/ListWrapper';
 import ListProduct from './ListProduct';
 import styles from './ProductDetails.module.scss';
-import SearchInput from '../common/SearchInput';
 
-const ProductDetails = ({ changeShow }) => {
-  const stocksProducts = useSelector((state) => state.product.stocksProducts);
-  const categories = useSelector((state) => state.category.categories);
+import SearchInput from '../modules/SearchInput';
+
+const ProductDetails = (props) => {
   const update = useSelector((state) => state.product.productUpdate.update);
-  const newProducts = stocksProducts.map((data) => (
-    data.products.map((product) => (
-      {
-        id: product.id,
-        name: product.name,
-        partNumber: product.part_number,
-        brand: product.brand,
-        status: product.status,
-        category: categories.find((category) => category.id === product.category_id).id,
-        categoryName: categories.find((category) => category.id === product.category_id).name,
-        stock: data.stock.id,
-        stockName: data.stock.name,
-        cost: parseFloat(product.cost),
-        selling: parseFloat(product.selling),
-        quantity: parseInt(product.quantity, 10),
-      }
-    )))).flat();
+  const loading = useSelector((state) => state.product.fetching);
+
+  const {
+    changeShow, newProducts, selectId,
+  } = props;
+
+  if (!newProducts) return <div>Loading...</div>;
 
   const [filteredProducts, setFilteredProducts] = useState(newProducts);
   const { inputContainer } = styles;
+
+  useEffect(() => {
+    setFilteredProducts(newProducts);
+  }, [newProducts]);
+
   const dispatch = useDispatch();
 
   const handleSearch = (e) => {
@@ -57,8 +52,9 @@ const ProductDetails = ({ changeShow }) => {
     ));
   };
 
-  const handleUpdate = (id, product) => {
+  const handleUpdate = (idd, product) => {
     dispatch(setUpdateProduct(product));
+    selectId(idd);
     changeShow();
   };
 
@@ -87,20 +83,24 @@ const ProductDetails = ({ changeShow }) => {
           </label>
         </div>
       </InputWrapper>
-      <ListWrapper height="prodcutDetails">
-        <ListProduct
-          products={filteredProducts}
-          undleUpdate={handleUpdate}
-          handleDelete={handleDelete}
-          update={update}
-        />
-      </ListWrapper>
+      {loading ? <h1>Loading...</h1> : (
+        <ListWrapper height="prodcutDetails">
+          <ListProduct
+            products={filteredProducts}
+            undleUpdate={handleUpdate}
+            handleDelete={handleDelete}
+            update={update}
+          />
+        </ListWrapper>
+      )}
     </>
   );
 };
 
 ProductDetails.propTypes = {
   changeShow: PropTypes.func.isRequired,
+  newProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectId: PropTypes.func.isRequired,
 };
 
 export default ProductDetails;

@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/forbid-prop-types */
 import React from 'react';
-// import { useSelector } from 'react-redux';
 import { ImPencil2 } from 'react-icons/im';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import styles from './ListProduct.module.scss';

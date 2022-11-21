@@ -1,23 +1,43 @@
 import React, { useState } from 'react';
 import { MdOutlineAddCircle } from 'react-icons/md';
 import { FaProductHunt } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 import MainBody from '../components/common/MainBody';
 import MainContainer from '../components/common/MainContainer';
 import Sidebar from '../components/common/Sidebar';
 import SubContainer from '../components/common/SubContainer';
 import Topbar from '../components/common/Topbar';
-import styles from './Product.module.scss';
-import LogoutBtn from '../components/common/LogoutBtn';
 import AddProduct from '../components/products/AddProduct';
 import ProductDetails from '../components/products/ProductDetails';
+import Navbar from '../components/common/Navbar';
+import styles from './Product.module.scss';
 
 const Product = () => {
-  const {
-    header, body, title, nav, icon, navBtn,
-  } = styles;
   const [show, setShow] = useState(true);
-  const changeShow = () => {
-    setShow(true);
+  const changeShow = () => { setShow(true); };
+  const { icon } = styles;
+  const products = useSelector((state) => state.product.fetching);
+  const categories = useSelector((state) => state.category.fetching);
+  const stocks = useSelector((state) => state.stock.fetching);
+  const navLinks = [
+    {
+      id: 1, name: 'New Product', icon: <MdOutlineAddCircle className={icon} />, show: true,
+    },
+    {
+      id: 2, name: 'Products', icon: <FaProductHunt className={icon} />, show: false,
+    },
+  ];
+  const [productts, setProductts] = useState();
+  const [id, setId] = useState(0);
+
+  const loading = products || categories || stocks;
+
+  const updatedProducts = (product) => {
+    setProductts(product);
+  };
+
+  const selectId = (productId) => {
+    setId(productId);
   };
 
   return (
@@ -25,35 +45,19 @@ const Product = () => {
       <Sidebar />
       <SubContainer>
         <Topbar>
-          <div className={header}>
-            <div className={title}>
-              <h1 className={title}>
-                <FaProductHunt className={icon} />
-                Product
-              </h1>
-            </div>
-            <div className={nav}>
-              <ul>
-                <li>
-                  <button type="button" className={`btn ${navBtn}`} onClick={() => setShow(true)}>
-                    <MdOutlineAddCircle className={icon} />
-                    New Product
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className={`btn ${navBtn}`} onClick={() => setShow(false)}>
-                    <FaProductHunt className={icon} />
-                    Products
-                  </button>
-                </li>
-              </ul>
-              <LogoutBtn icon={icon} />
-            </div>
-          </div>
+          <Navbar navLinks={navLinks} setShow={setShow} titleName="Product" iconType={navLinks[1].icon} />
         </Topbar>
-        <MainBody container={body}>
-          {show ? <AddProduct />
-            : <ProductDetails changeShow={changeShow} />}
+        <MainBody>
+          {loading && <div>Loading...</div>}
+          {!loading && show && <AddProduct updatedProducts={updatedProducts} detailsId={id} />}
+          {!loading && !show
+          && (
+          <ProductDetails
+            changeShow={changeShow}
+            newProducts={productts}
+            selectId={selectId}
+          />
+          )}
         </MainBody>
       </SubContainer>
     </MainContainer>

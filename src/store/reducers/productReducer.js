@@ -12,6 +12,7 @@ const initialState = {
     product: {},
   },
   loading: false,
+  fetching: false,
   error: null,
 };
 
@@ -31,25 +32,31 @@ const productSlice = createSlice({
   extraReducers: {
     [fetchProducts.pending]: (state) => {
       state.loading = true;
+      state.fetching = true;
     },
     [fetchProducts.fulfilled]: (state, { payload }) => {
       state.products = payload;
       state.loading = false;
+      state.fetching = false;
     },
     [fetchProducts.rejected]: (state, { payload }) => {
       state.error = payload;
       state.loading = false;
+      state.fetching = false;
     },
     [fetchStocksProducts.pending]: (state) => {
       state.loading = true;
+      state.fetching = true;
     },
     [fetchStocksProducts.fulfilled]: (state, { payload }) => {
       state.stocksProducts = payload;
       state.loading = false;
+      state.fetching = false;
     },
     [fetchStocksProducts.rejected]: (state, { payload }) => {
       state.error = payload;
       state.loading = false;
+      state.fetching = false;
     },
     [createProduct.pending]: (state) => {
       state.loading = true;

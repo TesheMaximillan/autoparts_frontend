@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.scss';
 import RequireAuth from './components/common/RequireAuth';
+import Categories from './pages/Categories';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Product from './pages/Product';
@@ -20,6 +21,10 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchStocksProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
@@ -29,10 +34,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchStocksProducts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -62,7 +63,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/products" element={<Product />} />
+          <Route path="dashboard/products" element={<Product />} />
+          <Route path="dashboard/categories" element={<Categories />} />
         </Route>
       </Routes>
     </Router>

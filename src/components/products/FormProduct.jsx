@@ -2,11 +2,11 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { IoAddCircle } from 'react-icons/io5';
-import { ImPencil2 } from 'react-icons/im';
 import PropTypes from 'prop-types';
 
 import styles from './FormProduct.module.scss';
+import FormGroup from '../modules/FormGroup';
+import Button from '../modules/Button';
 
 const FormProduct = (props) => {
   const categories = useSelector((state) => state.category.categories);
@@ -15,9 +15,7 @@ const FormProduct = (props) => {
     product, handleChange, handleSubmit, update,
   } = props;
 
-  const {
-    form, formGroup, formBtns, addBtn, updateBtn,
-  } = styles;
+  const { form, formBtns } = styles;
 
   const {
     name, partNumber, brand, status, category, stock, cost, selling, quantity,
@@ -44,88 +42,19 @@ const FormProduct = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className={form}>
-        <div className={formGroup}>
-          <label htmlFor="name">
-            Product Name
-            {' '}
-            <input type="text" id="name" placeholder="Enter product name" name="name" value={name} onChange={handleChange} required />
-          </label>
-
-        </div>
-        <div className={formGroup}>
-          <label htmlFor="partNumber">
-            Part Number
-            {' '}
-            <input type="text" id="partNumber" placeholder="Enter part number" name="partNumber" value={partNumber} onChange={handleChange} required />
-          </label>
-
-        </div>
-        <div className={formGroup}>
-          <label htmlFor="brand">
-            Brand
-            {' '}
-            <input type="text" id="brand" placeholder="Enter brand" name="brand" value={brand} onChange={handleChange} required />
-          </label>
-
-        </div>
-        <div className={formGroup}>
-          <label htmlFor="status">
-            Type
-            {' '}
-            <input type="text" id="status" placeholder="Enter Type" name="status" value={status} onChange={handleChange} required />
-          </label>
-
-        </div>
-        <div className={formGroup}>
-          <label htmlFor="category">
-            Category
-            {' '}
-            <select id="category" name="category" value={category} onChange={handleChange} required>
-              {categoryOptions}
-            </select>
-
-          </label>
-
-        </div>
-        <div className={formGroup}>
-          <label htmlFor="stock">
-            Stock
-            {' '}
-            <select id="stock" name="stock" value={stock} onChange={handleChange} required disabled={update}>
-              {stockOptions}
-            </select>
-
-          </label>
-
-        </div>
-        <div className={formGroup}>
-          <label htmlFor="cost">
-            Cost
-            {' '}
-            <input type="number" id="cost" placeholder="Enter cost price" name="cost" value={cost} onChange={handleChange} required />
-          </label>
-
-        </div>
-        <div className={formGroup}>
-          <label htmlFor="selling">
-            Selling Price
-            {' '}
-            <input type="number" id="selling" placeholder="Enter selling price" name="selling" value={selling} onChange={handleChange} required />
-          </label>
-
-        </div>
-        <div className={formGroup}>
-          <label htmlFor="quantity">
-            Quantity
-            {' '}
-            <input type="number" id="quantity" placeholder="Enter quantity" name="quantity" value={quantity} onChange={handleChange} required />
-          </label>
-
-        </div>
+        <FormGroup type="text" name="name" value={name} title="Product Name" handleChange={handleChange} />
+        <FormGroup type="text" name="partNumber" value={partNumber} title="Part Number" handleChange={handleChange} />
+        <FormGroup type="text" name="brand" value={brand} title="Brand" handleChange={handleChange} />
+        <FormGroup type="text" name="status" value={status} title="Status" handleChange={handleChange} />
+        <FormGroup type="select" name="category" value={category} title="Category" handleChange={handleChange} options={categoryOptions} />
+        <FormGroup type="select" name="stock" value={stock} title="Stock" handleChange={handleChange} options={stockOptions} />
+        <FormGroup type="number" name="cost" value={cost} title="Cost" handleChange={handleChange} />
+        <FormGroup type="number" name="selling" value={selling} title="Selling Price" handleChange={handleChange} />
+        <FormGroup type="number" name="quantity" value={quantity} title="Quantity" handleChange={handleChange} />
       </div>
       <div className={formBtns}>
-        {!update && <button type="submit" className={addBtn}><IoAddCircle /></button>}
-        {update && <button type="submit" className={updateBtn}><ImPencil2 /></button>}
+        {!update && (<Button type="submit" classname="addBtn" />)}
+        {update && (<Button type="submit" classname="updateBtn" />)}
       </div>
     </form>
   );

@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: center;
+  border: 2px solid var(--color-danger);
+  background-color: var(--white);
+  padding: 0.5rem;
+  border-radius: 50%;
+
+  .logoutBtn {
+    color: var(--color-danger);
+    font-weight: 700;
+    font-size: 2rem;
+    cursor: pointer;
+    background-color: none;
+    transition: all 0.2s ease-in-out;
+  
+  
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}

@@ -14,7 +14,7 @@ const Notification = () => {
       <div className={`${notification} ${status}`}>
         {Object.keys(message).map((key) => (
           <p key={key}>
-            {`${key} ${message[key]}`}
+            {message[key]}
           </p>
         ))}
       </div>

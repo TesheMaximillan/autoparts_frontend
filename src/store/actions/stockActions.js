@@ -22,7 +22,13 @@ const createStock = createAsyncThunk(
       const response = await api.post('/stocks', stock, { withCredentials: true });
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -31,16 +37,25 @@ const createStock = createAsyncThunk(
 
 const updateStock = createAsyncThunk(
   'stock/updateStock',
-  async (stock, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await api.put(`/stocks/${stock.id}`, stock, { withCredentials: true });
-      thunkAPI.dispatch(showNotification(
-        { message: response.data.message, isError: false, isOpen: true },
-      ));
-      setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
+      const stock = { name: data.name };
+      const response = await api.put(`/stocks/${data.id}`, stock, { withCredentials: true });
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      } else {
+        thunkAPI.dispatch(showNotification({
+          message: { Bad: ['Request please contact your support'] },
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -52,13 +67,15 @@ const deleteStock = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await api.delete(`/stocks/${id}`, { withCredentials: true });
-      thunkAPI.dispatch(showNotification(
-        { message: response.data.message, isError: false, isOpen: true },
-      ));
-      setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }

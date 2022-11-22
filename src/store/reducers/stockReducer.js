@@ -6,6 +6,10 @@ import {
 
 const initialState = {
   stocks: [],
+  stockUpdate: {
+    update: false,
+    stock: {},
+  },
   loading: false,
   fetching: false,
   error: null,
@@ -14,6 +18,16 @@ const initialState = {
 const stockSlice = createSlice({
   name: 'stock',
   initialState,
+  reducers: {
+    setUpdateStock: (state, { payload }) => {
+      state.stockUpdate.update = true;
+      state.stockUpdate.stock = payload;
+    },
+    resetUpdateStock: (state) => {
+      state.stockUpdate.update = false;
+      state.stockUpdate.stock = {};
+    },
+  },
   extraReducers: {
     [fetchStocks.pending]: (state) => {
       state.loading = true;
@@ -68,3 +82,5 @@ const stockSlice = createSlice({
 });
 
 export default stockSlice.reducer;
+
+export const { setUpdateStock, resetUpdateStock } = stockSlice.actions;

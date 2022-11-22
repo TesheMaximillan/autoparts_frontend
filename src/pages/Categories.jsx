@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BiCategory } from 'react-icons/bi';
 import { MdOutlineAddCircle } from 'react-icons/md';
 import { useSelector } from 'react-redux';
+import AddCategory from '../components/categories/AddCategory';
+import CategoryDetails from '../components/categories/CategoryDetails';
 import MainBody from '../components/common/MainBody';
 
 import MainContainer from '../components/common/MainContainer';
@@ -11,10 +13,11 @@ import SubContainer from '../components/common/SubContainer';
 import TopBar from '../components/common/Topbar';
 import styles from './Categories.module.scss';
 
+const { icon } = styles;
+
 const Categories = () => {
-  const { icon } = styles;
   const [show, setShow] = useState(true);
-  // const changeShow = () => { setShow(true); };
+  const changeShow = () => { setShow(true); };
   const categories = useSelector((state) => state.category.fetching);
 
   const navLinks = [
@@ -26,6 +29,17 @@ const Categories = () => {
     },
   ];
 
+  const [categoriees, setCategoriees] = useState();
+  const [id, setId] = useState(0);
+
+  const updatedCategories = (category) => {
+    setCategoriees(category);
+  };
+
+  const selectId = (categoryId) => {
+    setId(categoryId);
+  };
+
   return (
     <MainContainer>
       <Sidebar />
@@ -35,8 +49,16 @@ const Categories = () => {
         </TopBar>
         <MainBody>
           {categories && <div>Loading...</div>}
-          {!categories && show && <div>ADD Categories</div>}
-          {!categories && !show && <div>Categories</div>}
+          {!categories && show
+          && <AddCategory updatedCategories={updatedCategories} detailsId={id} />}
+          {!categories && !show
+          && (
+            <CategoryDetails
+              changeShow={changeShow}
+              newCategories={categoriees}
+              selectId={selectId}
+            />
+          )}
         </MainBody>
       </SubContainer>
     </MainContainer>

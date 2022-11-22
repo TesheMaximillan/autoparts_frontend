@@ -7,7 +7,7 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import styles from './ListProduct.module.scss';
 
 const ListProduct = ({
-  products, undleUpdate, handleDelete, update,
+  products, handleUpdate, handleDelete, update,
 }) => {
   const {
     container, btns, updateBtn, deleteBtn, disableBtn,
@@ -47,7 +47,7 @@ const ListProduct = ({
               <td>{product.quantity}</td>
               <td>{product.stockName}</td>
               <td className={btns}>
-                <button type="button" onClick={() => undleUpdate(product.id, product)} className={updateBtn}><ImPencil2 /></button>
+                <button type="button" onClick={() => handleUpdate(product.id, product)} className={updateBtn}><ImPencil2 /></button>
                 <button type="button" className={deleteClass} disabled={update} onClick={() => handleDelete(product.id)}><RiDeleteBin5Fill /></button>
               </td>
             </tr>

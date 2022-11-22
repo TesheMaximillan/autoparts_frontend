@@ -6,6 +6,10 @@ import {
 
 const initialState = {
   categories: [],
+  categoryUpdate: {
+    update: false,
+    category: {},
+  },
   loading: false,
   fetching: false,
   error: null,
@@ -14,6 +18,16 @@ const initialState = {
 const categorySlice = createSlice({
   name: 'category',
   initialState,
+  reducers: {
+    setUpdateCategory: (state, { payload }) => {
+      state.categoryUpdate.update = true;
+      state.categoryUpdate.category = payload;
+    },
+    resetUpdateCategory: (state) => {
+      state.categoryUpdate.update = false;
+      state.categoryUpdate.category = {};
+    },
+  },
   extraReducers: {
     [fetchCategories.pending]: (state) => {
       state.loading = true;
@@ -68,3 +82,5 @@ const categorySlice = createSlice({
 });
 
 export default categorySlice.reducer;
+
+export const { setUpdateCategory, resetUpdateCategory } = categorySlice.actions;

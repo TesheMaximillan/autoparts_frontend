@@ -22,7 +22,13 @@ const createCategory = createAsyncThunk(
       const response = await api.post('/categories', category, { withCredentials: true });
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -31,16 +37,25 @@ const createCategory = createAsyncThunk(
 
 const updateCategory = createAsyncThunk(
   'category/updateCategory',
-  async (category, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await api.put(`/categories/${category.id}`, category, { withCredentials: true });
-      thunkAPI.dispatch(showNotification(
-        { message: response.data.message, isError: false, isOpen: true },
-      ));
-      setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
+      const category = { name: data.name };
+      const response = await api.put(`/categories/${data.id}`, category, { withCredentials: true });
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      } else {
+        thunkAPI.dispatch(showNotification({
+          message: { Bad: ['Request please contact your support'] },
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -58,7 +73,13 @@ const deleteCategory = createAsyncThunk(
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }

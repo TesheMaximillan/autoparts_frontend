@@ -8,13 +8,12 @@ import { setUpdateProduct } from '../../store/reducers/productReducer';
 import InputWrapper from '../common/InputWrapper';
 import ListWrapper from '../common/ListWrapper';
 import ListProduct from './ListProduct';
-import styles from './ProductDetails.module.scss';
-
 import SearchInput from '../modules/SearchInput';
 
 const ProductDetails = (props) => {
   const update = useSelector((state) => state.product.productUpdate.update);
   const loading = useSelector((state) => state.product.fetching);
+  const dispatch = useDispatch();
 
   const {
     changeShow, newProducts, selectId,
@@ -23,32 +22,34 @@ const ProductDetails = (props) => {
   if (!newProducts) return <div>Loading...</div>;
 
   const [filteredProducts, setFilteredProducts] = useState(newProducts);
-  const { inputContainer } = styles;
 
   useEffect(() => {
     setFilteredProducts(newProducts);
   }, [newProducts]);
 
-  const dispatch = useDispatch();
-
   const handleSearch = (e) => {
-    const filtered = e.target.value.toLowerCase();
-    const type = e.target.name;
-
+    const filtered = e.target.value.toLowerCase().trim();
     setFilteredProducts(newProducts.filter(
-      (product) => product[type].toLowerCase().includes(filtered),
+      (product) => product.name.toLowerCase().trim().includes(filtered)
+        || product.partNumber.toLowerCase().trim().includes(filtered)
+        || product.brand.toLowerCase().trim().includes(filtered)
+        || product.status.toLowerCase().trim().includes(filtered)
+        || product.categoryName.toLowerCase().trim().includes(filtered)
+        || product.stockName.toLowerCase().trim().includes(filtered),
     ));
   };
 
-  const handleAnySearch = (e) => {
-    const filtered = e.target.value.toLowerCase();
+  const searchByName = (e) => {
+    const filtered = e.target.value.toLowerCase().trim();
     setFilteredProducts(newProducts.filter(
-      (product) => product.name.toLowerCase().includes(filtered)
-        || product.partNumber.toLowerCase().includes(filtered)
-        || product.brand.toLowerCase().includes(filtered)
-        || product.status.toLowerCase().includes(filtered)
-        || product.categoryName.toLowerCase().includes(filtered)
-        || product.stockName.toLowerCase().includes(filtered),
+      (product) => product.name.toLowerCase().trim().includes(filtered),
+    ));
+  };
+
+  const searchByPartNumber = (e) => {
+    const filtered = e.target.value.toLowerCase().trim();
+    setFilteredProducts(newProducts.filter(
+      (product) => product.partNumber.toLowerCase().trim().includes(filtered),
     ));
   };
 
@@ -68,26 +69,15 @@ const ProductDetails = (props) => {
   return (
     <>
       <InputWrapper>
-        <div className={inputContainer}>
-          <label htmlFor="name">
-            Product Name: &nbsp;
-            <SearchInput handleSearch={handleSearch} type="name" />
-          </label>
-          <label htmlFor="partNumber">
-            Part Number: &nbsp;
-            <SearchInput handleSearch={handleSearch} type="partNumber" />
-          </label>
-          <label htmlFor="any">
-            Any Search: &nbsp;
-            <SearchInput handleSearch={handleAnySearch} type="any" />
-          </label>
-        </div>
+        <SearchInput handleSearch={handleSearch} type="search" title="Search" />
+        <SearchInput handleSearch={searchByName} type="name" title="Search by name" />
+        <SearchInput handleSearch={searchByPartNumber} type="partNumber" title="Search by partnumber" />
       </InputWrapper>
       {loading ? <h1>Loading...</h1> : (
-        <ListWrapper height="prodcutDetails">
+        <ListWrapper height="details">
           <ListProduct
             products={filteredProducts}
-            undleUpdate={handleUpdate}
+            handleUpdate={handleUpdate}
             handleDelete={handleDelete}
             update={update}
           />

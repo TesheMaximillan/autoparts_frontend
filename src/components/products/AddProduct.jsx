@@ -13,88 +13,40 @@ import InputWrapper from '../common/InputWrapper';
 import { resetUpdateProduct } from '../../store/reducers/productReducer';
 import { hideNotification, showNotification } from '../../store/reducers/uiReducers';
 import styles from './AddProduct.module.scss';
+import useProduct from '../hooks/useProduct';
 
 const { alert } = styles;
 
 const AddProduct = ({ updatedProducts, detailsId }) => {
   const categories = useSelector((state) => state.category.categories);
   const stocks = useSelector((state) => state.stock.stocks);
-  let stocksProducts = useSelector((state) => state.product.stocksProducts);
 
-  if (!stocksProducts) return <div>Loading...</div>;
-
-  stocksProducts = stocksProducts.map((data) => (
-    data.products.map((product) => (
-      {
-        id: product.id,
-        name: product.name,
-        partNumber: product.part_number,
-        brand: product.brand,
-        status: product.status,
-        category: categories.find((category) => category.id === product.category_id).id,
-        categoryName: categories.find((category) => category.id === product.category_id).name,
-        stock: data.stock.id,
-        stockName: data.stock.name,
-        cost: parseFloat(product.cost),
-        selling: parseFloat(product.selling),
-        quantity: parseInt(product.quantity, 10),
-      }
-    )))).flat();
-
-  const [productDetails, setProductDetails] = useState(stocksProducts);
-
-  if (categories.length === 0) {
-    return <div className={alert}>Please Add Category first</div>;
-  }
-
-  if (stocks.length === 0) {
-    return <div className={alert}>Please Add Stock first</div>;
-  }
+  if (categories.length === 0) { return <div className={alert}>Please Add Category first</div>; }
+  if (stocks.length === 0) { return <div className={alert}>Please Add Stock first</div>; }
 
   const isOpen = useSelector((state) => state.ui.notification.isOpen);
   const products = useSelector((state) => state.product.products);
-
   const productUpdate = useSelector((state) => state.product.productUpdate);
+  const stocksProducts = useSelector((state) => state.product.stocksProducts);
+  if (!stocksProducts) return <div>Loading...</div>;
+
+  const [idName, setIdName] = useState({ stock: stocks[0].name, category: categories[0].name });
+  const [update, setUpdate] = useState(productUpdate.update);
+
   const id = products.length ? products[products.length - 1].id + 1 : 0;
   const [currentId, setCurrentId] = useState(id);
-  const [idName, setIdName] = useState({
-    stock: stocks[0].name,
-    category: categories[0].name,
-  });
   const [productId, setProductId] = useState(0);
-  const [update, setUpdate] = useState(productUpdate.update);
-  const dispatch = useDispatch();
-  const initialState = {
-    name: '',
-    partNumber: '',
-    brand: 'Toyota',
-    status: 'Original',
-    category: categories[0].id,
-    stock: stocks[0].id,
-    cost: '',
-    selling: '',
-    quantity: '',
-  };
 
-  const fetched = (products) => {
-    const newProducts = products.map((product) => ({
-      name: product.name,
-      partNumber: product.part_number,
-      brand: product.brand,
-      status: product.status,
-      category: product.category_id,
-      stock: 1,
-      cost: product.cost,
-      selling: product.selling,
-      quantity: product.quantity,
-    }));
-    return newProducts;
-  };
+  const productObj = useProduct(stocksProducts, categories, stocks, products);
+  const { productsStock, initialState, fetchedProducts } = productObj;
 
-  const [storeProducts, setStoreProducts] = useState(fetched(products));
+  const [productDetails, setProductDetails] = useState(productsStock);
+  const [storeProducts, setStoreProducts] = useState(fetchedProducts);
   const [product, setProduct] = useState(initialState);
   const [newProducts, setNewProducts] = useState([]);
   const { cost, selling, quantity } = product;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (productUpdate.update) {
@@ -106,7 +58,7 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
     updatedProducts(productDetails);
   }, [productDetails]);
 
-  const undleUpdate = (id, product) => {
+  const handleUpdate = (id, product) => {
     setUpdate(true);
     setProduct(product);
     setProductId(id);
@@ -117,6 +69,25 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
     if (products.find((product) => product.id === id).id) {
       dispatch(deleteProduct(id));
     }
+  };
+
+  const checkDuplicate = (product) => {
+    let result = false;
+    if (storeProducts.length) {
+      const duplicate = storeProducts
+        .find((p) => p.partNumber === product.partNumber.toLowerCase()
+      && p.name === product.name.toLowerCase() && p.status === product.status.toLowerCase());
+      if (duplicate) {
+        dispatch(showNotification({
+          message: { error: 'Product already exists' },
+          isError: true,
+          isOpen: true,
+        }));
+        setTimeout(() => dispatch(hideNotification()), 3000);
+        result = true;
+      }
+    }
+    return result;
   };
 
   const handleChange = (e) => {
@@ -138,61 +109,50 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
     }
   };
 
+  const updateState = () => {
+    if (cost > 0 && selling >= cost && quantity > 0) {
+      const updatedProduct = {
+        ...product,
+        categoryName: idName.category,
+        stockName: idName.stock,
+      };
+      setNewProducts(newProducts.map((item) => (item.id === productId ? updatedProduct : item)));
+      updatedProducts(
+        productDetails.map((item) => (item.id === detailsId ? updatedProduct : item)),
+      );
+      setUpdate(false);
+      setProductId();
+      setProduct(initialState);
+      dispatch(resetUpdateProduct());
+    }
+  };
+
+  const createState = () => {
+    if (cost > 0 && selling >= cost && quantity > 0) {
+      setCurrentId(currentId + 1);
+      const addProduct = {
+        ...product,
+        id: currentId,
+        categoryName: idName.category,
+        stockName: idName.stock,
+      };
+      setNewProducts([...newProducts, addProduct]);
+      updatedProducts(setProductDetails([...productDetails, addProduct]));
+      setStoreProducts([...storeProducts, product]);
+      setProduct(initialState);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (update) {
       dispatch(updateProduct(product));
-
-      if (cost > 0 && selling >= cost && quantity > 0) {
-        setNewProducts(
-          newProducts.map((item) => (item.id === productId
-            ? { ...product, categoryName: idName.category, stockName: idName.stock } : item)),
-        );
-        updatedProducts(
-          productDetails.map((item) => (item.id === detailsId
-            ? { ...product, categoryName: idName.category, stockName: idName.stock } : item)),
-        );
-        setUpdate(false);
-        setProductId();
-        setProduct(initialState);
-        dispatch(resetUpdateProduct());
-      }
+      updateState();
     } else {
-      if (storeProducts.length) {
-        const duplicate = storeProducts
-          .find((p) => p.partNumber === product.partNumber.toLowerCase()
-        && p.name === product.name.toLowerCase() && p.status === product.status.toLowerCase());
-        if (duplicate) {
-          dispatch(showNotification({
-            message: { error: 'Product already exists' },
-            isError: true,
-            isOpen: true,
-          }));
-          setTimeout(() => dispatch(hideNotification()), 3000);
-          return;
-        }
-      }
-
+      if (checkDuplicate(product)) return;
       dispatch(createProduct(product));
-
-      if (cost > 0 && selling >= cost && quantity > 0) {
-        setCurrentId(currentId + 1);
-        setNewProducts([...newProducts, {
-          ...product,
-          id: currentId,
-          categoryName: idName.category,
-          stockName: idName.stock,
-        }]);
-        updatedProducts(setProductDetails([...productDetails, {
-          ...product,
-          id: currentId,
-          categoryName: idName.category,
-          stockName: idName.stock,
-        }]));
-        setStoreProducts([...storeProducts, product]);
-        setProduct(initialState);
-      }
+      createState();
     }
   };
 
@@ -210,7 +170,7 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
       <ListWrapper height="AddProduct">
         <ListProduct
           products={newProducts}
-          undleUpdate={undleUpdate}
+          handleUpdate={handleUpdate}
           handleDelete={handleDelete}
           update={update}
         />

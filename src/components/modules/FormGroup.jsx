@@ -1,4 +1,4 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './FormGroup.module.scss';
@@ -42,7 +42,6 @@ FormGroup.propTypes = {
   handleChange: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default FormGroup;

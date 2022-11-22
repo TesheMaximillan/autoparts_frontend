@@ -2,16 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './SearchInput.module.scss';
 
-const SearchInput = ({ handleSearch, type }) => {
+const SearchInput = ({ handleSearch, type, title }) => {
   const { searchInput } = styles;
   return (
-    <input type="text" id={type} className={searchInput} placeholder={`Search by ${type} 🔎`} name={type} onChange={handleSearch} />
+    <label htmlFor={type} className={searchInput}>
+      {title}
+      &nbsp;
+      <input type="text" id={type} placeholder={`${title} 🔎`} name={type} onChange={handleSearch} />
+    </label>
   );
 };
 
 SearchInput.propTypes = {
   handleSearch: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default SearchInput;

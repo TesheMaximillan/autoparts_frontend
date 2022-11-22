@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Product from './pages/Product';
 import Register from './pages/Register';
+import Stock from './pages/Stock';
 import { fetchCategories } from './store/actions/categoryActions';
 import { fetchCustomers } from './store/actions/customerActions';
 import { fetchProducts, fetchStocksProducts } from './store/actions/productActions';
@@ -63,8 +64,9 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="dashboard/products" element={<Product />} />
-          <Route path="dashboard/categories" element={<Categories />} />
+          <Route path="/products" element={<Product />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/stocks" element={<Stock />} />
         </Route>
       </Routes>
     </Router>

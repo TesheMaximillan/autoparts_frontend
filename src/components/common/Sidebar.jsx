@@ -19,10 +19,13 @@ const Sidebar = () => {
       id: 1, name: 'Dashboard', path: '/dashboard', icon: <AiFillDashboard />,
     },
     {
-      id: 2, name: 'Products', path: '/dashboard/products', icon: <FaProductHunt />,
+      id: 2, name: 'Products', path: '/products', icon: <FaProductHunt />,
     },
     {
-      id: 3, name: 'Categories', path: '/dashboard/categories', icon: <BiCategory />,
+      id: 3, name: 'Categories', path: '/categories', icon: <BiCategory />,
+    },
+    {
+      id: 8, name: 'Stocks', path: '/stocks', icon: <FaStore />,
     },
     {
       id: 4, name: 'Sales', path: '', icon: <FcSalesPerformance />,
@@ -35,9 +38,6 @@ const Sidebar = () => {
     },
     {
       id: 7, name: 'Vendors', path: '', icon: <ImUserTie />,
-    },
-    {
-      id: 8, name: 'Stocks', path: '', icon: <FaStore />,
     },
     {
       id: 9, name: 'Reports', path: '', icon: <IoDocuments />,

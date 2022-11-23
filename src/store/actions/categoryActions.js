@@ -67,10 +67,6 @@ const deleteCategory = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await api.delete(`/categories/${id}`, { withCredentials: true });
-      thunkAPI.dispatch(showNotification(
-        { message: response.data.message, isError: false, isOpen: true },
-      ));
-      setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return response.data;
     } catch (error) {
       if (error.response.status === 422) {

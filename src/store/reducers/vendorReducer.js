@@ -6,13 +6,28 @@ import {
 
 const initialState = {
   vendors: [],
+  vendorUpdate: {
+    update: false,
+    vendor: {},
+  },
   loading: false,
+  fetching: false,
   error: null,
 };
 
 const vendorSlice = createSlice({
   name: 'vendor',
   initialState,
+  reducers: {
+    setUpdateVendor: (state, { payload }) => {
+      state.vendorUpdate.update = true;
+      state.vendorUpdate.vendor = payload;
+    },
+    resetUpdateVendor: (state) => {
+      state.vendorUpdate.update = false;
+      state.vendorUpdate.vendor = {};
+    },
+  },
   extraReducers: {
     [fetchVendors.pending]: (state) => {
       state.loading = true;
@@ -64,3 +79,5 @@ const vendorSlice = createSlice({
 });
 
 export default vendorSlice.reducer;
+
+export const { setUpdateVendor, resetUpdateVendor } = vendorSlice.actions;

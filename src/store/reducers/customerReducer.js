@@ -6,13 +6,28 @@ import {
 
 const initialState = {
   customers: [],
+  customerUpdate: {
+    update: false,
+    customer: {},
+  },
   loading: false,
+  fetching: false,
   error: null,
 };
 
 const customerSlice = createSlice({
   name: 'customer',
   initialState,
+  reducers: {
+    setUpdateCustomer: (state, { payload }) => {
+      state.customerUpdate.update = true;
+      state.customerUpdate.customer = payload;
+    },
+    resetUpdateCustomer: (state) => {
+      state.customerUpdate.update = false;
+      state.customerUpdate.customer = {};
+    },
+  },
   extraReducers: {
     [fetchCustomers.pending]: (state) => {
       state.loading = true;
@@ -64,3 +79,5 @@ const customerSlice = createSlice({
 });
 
 export default customerSlice.reducer;
+
+export const { setUpdateCustomer, resetUpdateCustomer } = customerSlice.actions;

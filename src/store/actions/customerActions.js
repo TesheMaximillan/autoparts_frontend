@@ -22,7 +22,13 @@ const createCustomer = createAsyncThunk(
       const response = await api.post('/customers', customer, { withCredentials: true });
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -31,16 +37,25 @@ const createCustomer = createAsyncThunk(
 
 const updateCustomer = createAsyncThunk(
   'customer/updateCustomer',
-  async (customer, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await api.put(`/customers/${customer.id}`, customer, { withCredentials: true });
-      thunkAPI.dispatch(showNotification(
-        { message: response.data.message, isError: false, isOpen: true },
-      ));
-      setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
+      const customer = { name: data.name };
+      const response = await api.put(`/customers/${data.id}`, customer, { withCredentials: true });
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      } else {
+        thunkAPI.dispatch(showNotification({
+          message: { Bad: ['Request please contact your support'] },
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }
@@ -52,13 +67,15 @@ const deleteCustomer = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await api.delete(`/customers/${id}`, { withCredentials: true });
-      thunkAPI.dispatch(showNotification(
-        { message: response.data.message, isError: false, isOpen: true },
-      ));
-      setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }

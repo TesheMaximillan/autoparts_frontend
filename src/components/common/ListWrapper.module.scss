@@ -9,9 +9,9 @@
 }
 
 .detailsHeight {
-  height: 73%;
+  height: calc(100vh - (18.5rem + 7.7rem) );
 }
 
 .newProductHeight {
-  height: 53%;
+  height: calc(100vh - (18.5rem + 22.3rem) );
 }

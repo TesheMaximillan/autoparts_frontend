@@ -1,0 +1,29 @@
+.container {
+  width: 100%;
+  height: calc(100vh - 9.5rem - 6rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .loading {
+    width: 15rem;
+    height: 15rem;
+    box-shadow: var(--shadow-4);
+    border-radius: 50%;
+    background-color: var(--color-danger);
+    background-image: url(../../assets/images/toyota-logo-2.PNG);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: rotation 5s infinite linear;
+    z-index: 1;
+  }  
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}

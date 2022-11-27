@@ -12,6 +12,7 @@ import Navbar from '../components/common/Navbar';
 import MainBody from '../components/common/MainBody';
 import AddStock from '../components/stocks/AddStock';
 import StockDetails from '../components/stocks/StockDetails';
+import Loading from '../components/common/Loading';
 
 const { icon } = styles;
 
@@ -48,7 +49,7 @@ const Stock = () => {
           <Navbar navLinks={navLinks} setShow={setShow} titleName="Stock" />
         </TopBar>
         <MainBody>
-          {stocks && <div>Loading...</div>}
+          {stocks && <Loading />}
           {!stocks && show
           && <AddStock updatedStocks={updatedStocks} detailsId={id} />}
           {!stocks && !show

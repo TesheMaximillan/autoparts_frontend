@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.scss';
+import Alert from './components/common/Alert';
 import RequireAuth from './components/common/RequireAuth';
 import Categories from './pages/Categories';
+import Customer from './pages/Customer';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Product from './pages/Product';
 import Register from './pages/Register';
 import Stock from './pages/Stock';
+import Vendor from './pages/Vendor';
 import { fetchCategories } from './store/actions/categoryActions';
 import { fetchCustomers } from './store/actions/customerActions';
 import { fetchProducts, fetchStocksProducts } from './store/actions/productActions';
@@ -20,6 +23,7 @@ import { fetchVendors } from './store/actions/vendorActions';
 
 const App = () => {
   const dispatch = useDispatch();
+  const isAlert = useSelector((state) => state.ui.alert.isAlert);
 
   useEffect(() => {
     dispatch(fetchStocksProducts());
@@ -58,18 +62,23 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route element={<RequireAuth />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/products" element={<Product />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/stocks" element={<Stock />} />
-        </Route>
-      </Routes>
-    </Router>
+    <>
+      {isAlert && <Alert />}
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/products" element={<Product />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/stocks" element={<Stock />} />
+            <Route path="/customers" element={<Customer />} />
+            <Route path="/vendors" element={<Vendor />} />
+          </Route>
+        </Routes>
+      </Router>
+    </>
   );
 };
 

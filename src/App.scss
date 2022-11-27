@@ -10,15 +10,19 @@
   --color-primary-2: #8d95aa;
   --color-primary-3: #e8ecff;
   --color-primary-dark: rgb(25, 25, 35);
+  --color-hover: rgba(140, 140, 142, 0.3);
   --color-secondary: rgb(255, 193, 7);
   --color-secondary-dark: rgb(255, 160, 0);
   --color-danger: rgb(232, 0, 0);
-  --color-danger-light: rgb(255, 211, 211);
+  --color-danger-light: rgba(255, 211, 211, 0.9);
   --color-success: rgb(0, 192, 0);
+  --color-success-light: rgba(150, 235, 150, 0.9);
 
   --shadow-1: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, gba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   --shadow-2: inset rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, inset rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   --shadow-3: inset rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, inset rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  --shadow-4: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+
 }
 
 ::-webkit-scrollbar {
@@ -52,7 +56,7 @@ html {
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
   line-height: 1.6;
   font-size: 1.6rem;

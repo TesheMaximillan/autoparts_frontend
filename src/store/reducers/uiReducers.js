@@ -7,6 +7,10 @@ const initialState = {
     isError: false,
     isOpen: false,
   },
+  alert: {
+    message: '',
+    isAlert: false,
+  },
 };
 
 const uiSlice = createSlice({
@@ -19,10 +23,19 @@ const uiSlice = createSlice({
     hideNotification: (state) => {
       state.notification.isOpen = false;
     },
+    showAlert: (state, { payload }) => {
+      state.alert.message = payload;
+      state.alert.isAlert = true;
+    },
+    hideAlert: (state) => {
+      state.alert.isAlert = false;
+    },
   },
 });
 
 const { actions, reducer } = uiSlice;
 
-export const { showNotification, hideNotification } = actions;
+export const {
+  showNotification, hideNotification, showAlert, hideAlert,
+} = actions;
 export default reducer;

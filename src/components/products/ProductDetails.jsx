@@ -16,7 +16,7 @@ const ProductDetails = (props) => {
   const dispatch = useDispatch();
 
   const {
-    changeShow, newProducts, selectId,
+    changeShow, newProducts, selectId, storeProducts, setStoreProducts,
   } = props;
 
   if (!newProducts) return <div>Loading...</div>;
@@ -61,6 +61,7 @@ const ProductDetails = (props) => {
 
   const handleDelete = (id) => {
     setFilteredProducts(filteredProducts.filter((product) => product.id !== id));
+    setStoreProducts(storeProducts.filter((product) => product.id !== id));
     if (newProducts.find((product) => product.id === id).id) {
       dispatch(deleteProduct(id));
     }
@@ -91,6 +92,8 @@ ProductDetails.propTypes = {
   changeShow: PropTypes.func.isRequired,
   newProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectId: PropTypes.func.isRequired,
+  storeProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setStoreProducts: PropTypes.func.isRequired,
 };
 
 export default ProductDetails;

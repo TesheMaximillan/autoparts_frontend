@@ -42,8 +42,8 @@ const ListProduct = ({
               <td>{product.categoryName}</td>
               <td>{product.brand}</td>
               <td>{product.status}</td>
-              <td>{(product.cost).toFixed(2)}</td>
-              <td>{(product.selling).toFixed(2)}</td>
+              <td>{Intl.NumberFormat('en-US').format((product.cost.toFixed(2)))}</td>
+              <td>{Intl.NumberFormat('en-US').format((product.selling.toFixed(2)))}</td>
               <td>{product.quantity}</td>
               <td>{product.stockName}</td>
               <td className={btns}>

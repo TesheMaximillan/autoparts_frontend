@@ -68,7 +68,9 @@ const useAdd = (props) => {
   const checkDuplicate = (name) => {
     let result = false;
     if (storeItems.length) {
-      const duplicate = storeItems.find((item) => item.name === name.toLowerCase());
+      const duplicate = storeItems.find(
+        (item) => item.name.toLowerCase() === name.toLowerCase().trim(),
+      );
       if (duplicate) {
         result = true;
         dispatch(showNotification({

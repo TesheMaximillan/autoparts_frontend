@@ -55,6 +55,15 @@ const Login = () => {
       <section className={container}>
         <div className={logo} />
         <div className={containerMain}>
+          <div className={side}>
+            <h1 className={sideTitle}>Stock Management System</h1>
+            <p>
+              This stock management system is used to manage
+              your stock, sales, purchases, and transfers.
+              <br />
+              <span>Enjoy it!</span>
+            </p>
+          </div>
           <form onSubmit={onFormSubmit}>
             <input
               type="text"
@@ -95,15 +104,6 @@ const Login = () => {
             />
             )}
           </form>
-          <div className={side}>
-            <h1 className={sideTitle}>Stock Management System</h1>
-            <p>
-              This stock management system is used to manage
-              your stock, sales, purchases, and transfers.
-              <br />
-              <span>Enjoy it!</span>
-            </p>
-          </div>
         </div>
       </section>
     </>

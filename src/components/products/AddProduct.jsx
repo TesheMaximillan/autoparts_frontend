@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,21 +15,28 @@ import { resetUpdateProduct } from '../../store/reducers/productReducer';
 import { hideNotification, showNotification } from '../../store/reducers/uiReducers';
 import styles from './AddProduct.module.scss';
 import useProduct from '../hooks/useProduct';
+import Loading from '../common/Loading';
 
 const { alert } = styles;
 
-const AddProduct = ({ updatedProducts, detailsId }) => {
+const AddProduct = (props) => {
   const categories = useSelector((state) => state.category.categories);
+  const isCategoryLoading = useSelector((state) => state.category.fetching);
+  const isStockLoading = useSelector((state) => state.stock.fetching);
   const stocks = useSelector((state) => state.stock.stocks);
+  const {
+    updatedProducts, detailsId, storeProducts, setStoreProducts,
+  } = props;
 
-  if (categories.length === 0) { return <div className={alert}>Please Add Category first</div>; }
-  if (stocks.length === 0) { return <div className={alert}>Please Add Stock first</div>; }
+  if ((!isCategoryLoading && categories.length === 0) || (!isStockLoading && stocks.length === 0)) {
+    return <div className={alert}>Please Add Category and Stock first</div>;
+  }
 
+  const stocksProducts = useSelector((state) => state.product.stocksProducts);
+  if (!stocksProducts) return <Loading />;
   const isOpen = useSelector((state) => state.ui.notification.isOpen);
   const products = useSelector((state) => state.product.products);
   const productUpdate = useSelector((state) => state.product.productUpdate);
-  const stocksProducts = useSelector((state) => state.product.stocksProducts);
-  if (!stocksProducts) return <div>Loading...</div>;
 
   const [idName, setIdName] = useState({ stock: stocks[0].name, category: categories[0].name });
   const [update, setUpdate] = useState(productUpdate.update);
@@ -39,9 +47,7 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
 
   const productObj = useProduct(stocksProducts, categories, stocks, products);
   const { productsStock, initialState, fetchedProducts } = productObj;
-
   const [productDetails, setProductDetails] = useState(productsStock);
-  const [storeProducts, setStoreProducts] = useState(fetchedProducts);
   const [product, setProduct] = useState(initialState);
   const [newProducts, setNewProducts] = useState([]);
   const { cost, selling, quantity } = product;
@@ -55,6 +61,10 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
   }, [productUpdate]);
 
   useEffect(() => {
+    setStoreProducts(fetchedProducts);
+  }, []);
+
+  useEffect(() => {
     updatedProducts(productDetails);
   }, [productDetails]);
 
@@ -66,6 +76,7 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
 
   const handleDelete = (id) => {
     setNewProducts(newProducts.filter((product) => product.id !== id));
+    setStoreProducts(storeProducts.filter((product) => product.id !== id));
     if (products.find((product) => product.id === id).id) {
       dispatch(deleteProduct(id));
     }
@@ -73,10 +84,11 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
 
   const checkDuplicate = (product) => {
     let result = false;
-    if (storeProducts.length) {
+    if (storeProducts.length > 0) {
       const duplicate = storeProducts
-        .find((p) => p.partNumber === product.partNumber.toLowerCase()
-      && p.name === product.name.toLowerCase() && p.status === product.status.toLowerCase());
+        .find((p) => p.partNumber.toLowerCase() === product.partNumber.toLowerCase().trim()
+         && p.name.toLowerCase() === product.name.toLowerCase().trim()
+         && p.status.toLowerCase() === product.status.toLowerCase().trim());
       if (duplicate) {
         dispatch(showNotification({
           message: { error: 'Product already exists' },
@@ -129,6 +141,8 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
 
   const createState = () => {
     if (cost > 0 && selling >= cost && quantity > 0) {
+      storeProducts.sort((a, b) => a.id - b.id);
+
       setCurrentId(currentId + 1);
       const addProduct = {
         ...product,
@@ -138,14 +152,13 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
       };
       setNewProducts([...newProducts, addProduct]);
       updatedProducts(setProductDetails([...productDetails, addProduct]));
-      setStoreProducts([...storeProducts, product]);
+      setStoreProducts([...storeProducts, { ...product, id: currentId }]);
       setProduct(initialState);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (update) {
       dispatch(updateProduct(product));
       updateState();
@@ -182,6 +195,8 @@ const AddProduct = ({ updatedProducts, detailsId }) => {
 AddProduct.propTypes = {
   updatedProducts: PropTypes.func.isRequired,
   detailsId: PropTypes.number.isRequired,
+  storeProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setStoreProducts: PropTypes.func.isRequired,
 };
 
 export default AddProduct;

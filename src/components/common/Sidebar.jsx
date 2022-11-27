@@ -34,10 +34,10 @@ const Sidebar = () => {
       id: 5, name: 'Purchases', path: '', icon: <BiPurchaseTag />,
     },
     {
-      id: 6, name: 'Customers', path: '', icon: <ImUserTie />,
+      id: 6, name: 'Customers', path: '/customers', icon: <ImUserTie />,
     },
     {
-      id: 7, name: 'Vendors', path: '', icon: <ImUserTie />,
+      id: 7, name: 'Vendors', path: '/vendors', icon: <ImUserTie />,
     },
     {
       id: 9, name: 'Reports', path: '', icon: <IoDocuments />,

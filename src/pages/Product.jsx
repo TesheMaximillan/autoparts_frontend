@@ -11,6 +11,7 @@ import AddProduct from '../components/products/AddProduct';
 import ProductDetails from '../components/products/ProductDetails';
 import Navbar from '../components/common/Navbar';
 import styles from './Product.module.scss';
+import Loading from '../components/common/Loading';
 
 const Product = () => {
   const [show, setShow] = useState(true);
@@ -29,6 +30,7 @@ const Product = () => {
   ];
   const [productts, setProductts] = useState();
   const [id, setId] = useState(0);
+  const [storeProducts, setStoreProducts] = useState();
 
   const loading = products || categories || stocks;
 
@@ -40,6 +42,10 @@ const Product = () => {
     setId(productId);
   };
 
+  const storeProductsManagement = (products) => {
+    setStoreProducts(products);
+  };
+
   return (
     <MainContainer>
       <Sidebar />
@@ -48,14 +54,24 @@ const Product = () => {
           <Navbar navLinks={navLinks} setShow={setShow} titleName="Product" iconType={navLinks[1].icon} />
         </Topbar>
         <MainBody>
-          {loading && <div>Loading...</div>}
-          {!loading && show && <AddProduct updatedProducts={updatedProducts} detailsId={id} />}
+          {loading && <Loading />}
+          {!loading && show
+          && (
+          <AddProduct
+            updatedProducts={updatedProducts}
+            detailsId={id}
+            setStoreProducts={storeProductsManagement}
+            storeProducts={storeProducts}
+          />
+          )}
           {!loading && !show
           && (
           <ProductDetails
             changeShow={changeShow}
             newProducts={productts}
             selectId={selectId}
+            setStoreProducts={storeProductsManagement}
+            storeProducts={storeProducts}
           />
           )}
         </MainBody>

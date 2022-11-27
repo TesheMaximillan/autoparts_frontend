@@ -30,6 +30,7 @@ const useProduct = (stocksProducts, categories, stocks, products) => {
   };
 
   const fetchedProducts = products.map((product) => ({
+    id: product.id,
     name: product.name,
     partNumber: product.part_number,
     brand: product.brand,

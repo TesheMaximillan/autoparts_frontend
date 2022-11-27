@@ -4,6 +4,7 @@ import { MdOutlineAddCircle } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import AddCategory from '../components/categories/AddCategory';
 import CategoryDetails from '../components/categories/CategoryDetails';
+import Loading from '../components/common/Loading';
 import MainBody from '../components/common/MainBody';
 
 import MainContainer from '../components/common/MainContainer';
@@ -48,7 +49,7 @@ const Categories = () => {
           <Navbar navLinks={navLinks} setShow={setShow} titleName="Categories" />
         </TopBar>
         <MainBody>
-          {categories && <div>Loading...</div>}
+          {categories && <Loading />}
           {!categories && show
           && <AddCategory updatedCategories={updatedCategories} detailsId={id} />}
           {!categories && !show

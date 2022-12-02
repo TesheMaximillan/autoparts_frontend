@@ -5,6 +5,7 @@ const useDetails = (props) => {
   const {
     changeShow, newItems, selectId, setUpdateItem, deleteItem,
   } = props;
+
   const dispatch = useDispatch();
 
   if (!newItems) return <div>Loading...</div>;
@@ -36,7 +37,10 @@ const useDetails = (props) => {
   };
 
   return {
-    filteredItems, handleSearch, handleUpdate, handleDelete,
+    filteredItems,
+    handleSearch,
+    handleUpdate,
+    handleDelete,
   };
 };
 

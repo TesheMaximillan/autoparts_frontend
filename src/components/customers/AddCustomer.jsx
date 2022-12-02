@@ -66,7 +66,7 @@ const AddCustomer = ({ updatedCustomers, detailsId }) => {
 
 AddCustomer.propTypes = {
   updatedCustomers: PropTypes.func.isRequired,
-  detailsId: PropTypes.string.isRequired,
+  detailsId: PropTypes.number.isRequired,
 };
 
 export default AddCustomer;

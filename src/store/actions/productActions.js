@@ -64,7 +64,8 @@ const createProduct = createAsyncThunk(
 const updateProduct = createAsyncThunk(
   'product/updateProduct',
   async (data, thunkAPI) => {
-    const product = setProduct(data);
+    let product = setProduct(data);
+    product = { ...product, stock_id: data.stockId };
     try {
       const response = await api.put(`/products/${data.id}`, product, { withCredentials: true });
       return response.data;
@@ -90,9 +91,10 @@ const updateProduct = createAsyncThunk(
 
 const deleteProduct = createAsyncThunk(
   'product/deleteProduct',
-  async (id, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await api.delete(`/products/${id}`, { withCredentials: true });
+      const { productID, stockID } = data;
+      const response = await api.delete(`/products/${productID},${stockID}`, { withCredentials: true });
       return response.data;
     } catch (error) {
       if (error.response.status === 422) {

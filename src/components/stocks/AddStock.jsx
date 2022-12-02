@@ -65,8 +65,8 @@ const AddStock = ({ updatedStocks, detailsId }) => {
 };
 
 AddStock.propTypes = {
-  updatedStocks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  detailsId: PropTypes.string.isRequired,
+  updatedStocks: PropTypes.func.isRequired,
+  detailsId: PropTypes.number.isRequired,
 };
 
 export default AddStock;

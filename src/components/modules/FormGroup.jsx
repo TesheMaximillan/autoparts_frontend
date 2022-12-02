@@ -41,7 +41,6 @@ FormGroup.propTypes = {
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
 };
 
 export default FormGroup;

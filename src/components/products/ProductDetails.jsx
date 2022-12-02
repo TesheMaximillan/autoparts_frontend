@@ -1,23 +1,17 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deleteProduct } from '../../store/actions/productActions';
-import { setUpdateProduct } from '../../store/reducers/productReducer';
 import InputWrapper from '../common/InputWrapper';
 import ListWrapper from '../common/ListWrapper';
 import ListProduct from './ListProduct';
 import SearchInput from '../modules/SearchInput';
 
 const ProductDetails = (props) => {
-  const update = useSelector((state) => state.product.productUpdate.update);
   const loading = useSelector((state) => state.product.fetching);
-  const dispatch = useDispatch();
 
-  const {
-    changeShow, newProducts, selectId, storeProducts, setStoreProducts,
-  } = props;
+  const { newProducts } = props;
 
   if (!newProducts) return <div>Loading...</div>;
 
@@ -34,8 +28,7 @@ const ProductDetails = (props) => {
         || product.partNumber.toLowerCase().trim().includes(filtered)
         || product.brand.toLowerCase().trim().includes(filtered)
         || product.status.toLowerCase().trim().includes(filtered)
-        || product.categoryName.toLowerCase().trim().includes(filtered)
-        || product.stockName.toLowerCase().trim().includes(filtered),
+        || product.categoryName.toLowerCase().trim().includes(filtered),
     ));
   };
 
@@ -53,20 +46,6 @@ const ProductDetails = (props) => {
     ));
   };
 
-  const handleUpdate = (idd, product) => {
-    dispatch(setUpdateProduct(product));
-    selectId(idd);
-    changeShow();
-  };
-
-  const handleDelete = (id) => {
-    setFilteredProducts(filteredProducts.filter((product) => product.id !== id));
-    setStoreProducts(storeProducts.filter((product) => product.id !== id));
-    if (newProducts.find((product) => product.id === id).id) {
-      dispatch(deleteProduct(id));
-    }
-  };
-
   return (
     <>
       <InputWrapper>
@@ -78,9 +57,6 @@ const ProductDetails = (props) => {
         <ListWrapper height="details">
           <ListProduct
             products={filteredProducts}
-            handleUpdate={handleUpdate}
-            handleDelete={handleDelete}
-            update={update}
           />
         </ListWrapper>
       )}
@@ -89,11 +65,7 @@ const ProductDetails = (props) => {
 };
 
 ProductDetails.propTypes = {
-  changeShow: PropTypes.func.isRequired,
   newProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectId: PropTypes.func.isRequired,
-  storeProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setStoreProducts: PropTypes.func.isRequired,
 };
 
 export default ProductDetails;

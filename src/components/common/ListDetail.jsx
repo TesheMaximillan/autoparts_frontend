@@ -7,10 +7,10 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import styles from './ListDetail.module.scss';
 
 const ListDetail = ({
-  items, handleUpdate, handleDelete, update, page,
+  items, handleUpdate, handleDelete, update, page, selectItem,
 }) => {
   const {
-    container, btns, updateBtn, deleteBtn, disableBtn, main, detail,
+    container, btns, updateBtn, deleteBtn, disableBtn, main, detail, selectBtn,
   } = styles;
 
   const thWidth = page === 'main' ? main : detail;
@@ -31,7 +31,11 @@ const ListDetail = ({
           {items.map((item) => (
             <tr key={item.id}>
               <td>{items.indexOf(item) + 1}</td>
-              <td>{item.name}</td>
+              <td>
+                <div>
+                  <button type="button" id={selectBtn} onClick={() => selectItem(item.id)}>{item.name}</button>
+                </div>
+              </td>
               <td className={btns}>
                 <button type="button" onClick={() => handleUpdate(item.id, item)} className={updateBtn}><ImPencil2 /></button>
                 <button type="button" className={deleteClass} disabled={update} onClick={() => handleDelete(item.id)}><RiDeleteBin5Fill /></button>

@@ -43,10 +43,6 @@
             width: 10%;
           }
 
-          &:nth-child(2) {
-            text-align: left;
-          }
-
           &:last-child {
             width: 25%;
           }
@@ -55,10 +51,6 @@
         .main {
           &:first-child {
             width: 3%;
-          }
-
-          &:nth-child(2) {
-            text-align: left;
           }
 
           &:last-child {
@@ -79,8 +71,7 @@
         text-transform: capitalize;
 
         &:nth-child(2) {
-          text-align: left;
-          padding-left: 0.5rem;
+          padding: 0;
         }
       }
 
@@ -110,6 +101,28 @@
         .deleteBtn {
           color: var(--color-danger);
           @extend .btnProperties;
+        }
+      }
+
+      #selectBtn {
+        width: 100%;
+        height: 100%;
+        border-radius: 0 !important;
+        border: none;
+        transition: all 0.2s ease-in-out;
+        font-size: 1.6rem;
+        background-color: transparent;
+        box-shadow: none;
+        font-family: inherit;
+
+        &:hover {
+          background-color: var(--color-primary);
+          transform: scale(1);
+          color: var(--white);
+        }
+
+        &:active {
+          transform: scale(0.9);
         }
       }
     }

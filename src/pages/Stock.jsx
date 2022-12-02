@@ -51,7 +51,7 @@ const Stock = () => {
         <MainBody>
           {stocks && <Loading />}
           {!stocks && show
-          && <AddStock updatedStocks={updatedStocks} detailsId={id} />}
+          && <AddStock updatedStocks={updatedStocks} detailsId={parseInt(id, 10)} />}
           {!stocks && !show
           && (
             <StockDetails

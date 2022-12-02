@@ -65,7 +65,7 @@ const AddVendor = ({ updatedVendors, detailsId }) => {
 
 AddVendor.propTypes = {
   updatedVendors: PropTypes.func.isRequired,
-  detailsId: PropTypes.string.isRequired,
+  detailsId: PropTypes.number.isRequired,
 };
 
 export default AddVendor;

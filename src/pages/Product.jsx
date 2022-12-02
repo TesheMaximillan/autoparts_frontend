@@ -15,7 +15,6 @@ import Loading from '../components/common/Loading';
 
 const Product = () => {
   const [show, setShow] = useState(true);
-  const changeShow = () => { setShow(true); };
   const { icon } = styles;
   const products = useSelector((state) => state.product.fetching);
   const categories = useSelector((state) => state.category.fetching);
@@ -29,17 +28,12 @@ const Product = () => {
     },
   ];
   const [productts, setProductts] = useState();
-  const [id, setId] = useState(0);
   const [storeProducts, setStoreProducts] = useState();
 
   const loading = products || categories || stocks;
 
   const updatedProducts = (product) => {
     setProductts(product);
-  };
-
-  const selectId = (productId) => {
-    setId(productId);
   };
 
   const storeProductsManagement = (products) => {
@@ -59,7 +53,6 @@ const Product = () => {
           && (
           <AddProduct
             updatedProducts={updatedProducts}
-            detailsId={id}
             setStoreProducts={storeProductsManagement}
             storeProducts={storeProducts}
           />
@@ -67,11 +60,7 @@ const Product = () => {
           {!loading && !show
           && (
           <ProductDetails
-            changeShow={changeShow}
             newProducts={productts}
-            selectId={selectId}
-            setStoreProducts={storeProductsManagement}
-            storeProducts={storeProducts}
           />
           )}
         </MainBody>

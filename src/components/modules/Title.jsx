@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { FaProductHunt } from 'react-icons/fa';
-// import { AiFillDashboard } from 'react-icons/ai';
 import styles from './Title.module.scss';
 
 const Title = ({ titleName, iconType }) => {
@@ -18,7 +16,7 @@ const Title = ({ titleName, iconType }) => {
 
 Title.propTypes = {
   titleName: PropTypes.string.isRequired,
-  iconType: PropTypes.string.isRequired,
+  iconType: PropTypes.node.isRequired,
 };
 
 export default Title;

@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState, useEffect } from 'react';
@@ -25,17 +26,16 @@ const AddProduct = (props) => {
   const isStockLoading = useSelector((state) => state.stock.fetching);
   const stocks = useSelector((state) => state.stock.stocks);
   const {
-    updatedProducts, detailsId, storeProducts, setStoreProducts,
+    updatedProducts, storeProducts, setStoreProducts,
   } = props;
 
   if ((!isCategoryLoading && categories.length === 0) || (!isStockLoading && stocks.length === 0)) {
     return <div className={alert}>Please Add Category and Stock first</div>;
   }
 
-  const stocksProducts = useSelector((state) => state.product.stocksProducts);
-  if (!stocksProducts) return <Loading />;
-  const isOpen = useSelector((state) => state.ui.notification.isOpen);
   const products = useSelector((state) => state.product.products);
+  if (!products) return <Loading />;
+  const isOpen = useSelector((state) => state.ui.notification.isOpen);
   const productUpdate = useSelector((state) => state.product.productUpdate);
 
   const [idName, setIdName] = useState({ stock: stocks[0].name, category: categories[0].name });
@@ -45,7 +45,7 @@ const AddProduct = (props) => {
   const [currentId, setCurrentId] = useState(id);
   const [productId, setProductId] = useState(0);
 
-  const productObj = useProduct(stocksProducts, categories, stocks, products);
+  const productObj = useProduct(categories, stocks, products);
   const { productsStock, initialState, fetchedProducts } = productObj;
   const [productDetails, setProductDetails] = useState(productsStock);
   const [product, setProduct] = useState(initialState);
@@ -74,11 +74,11 @@ const AddProduct = (props) => {
     setProductId(id);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, stockID) => {
     setNewProducts(newProducts.filter((product) => product.id !== id));
     setStoreProducts(storeProducts.filter((product) => product.id !== id));
     if (products.find((product) => product.id === id).id) {
-      dispatch(deleteProduct(id));
+      dispatch(deleteProduct({ productID: id, stockID }));
     }
   };
 
@@ -122,16 +122,13 @@ const AddProduct = (props) => {
   };
 
   const updateState = () => {
-    if (cost > 0 && selling >= cost && quantity > 0) {
+    if (cost >= 0 && selling >= cost && quantity >= 0) {
       const updatedProduct = {
         ...product,
         categoryName: idName.category,
         stockName: idName.stock,
       };
       setNewProducts(newProducts.map((item) => (item.id === productId ? updatedProduct : item)));
-      updatedProducts(
-        productDetails.map((item) => (item.id === detailsId ? updatedProduct : item)),
-      );
       setUpdate(false);
       setProductId();
       setProduct(initialState);
@@ -151,7 +148,18 @@ const AddProduct = (props) => {
         stockName: idName.stock,
       };
       setNewProducts([...newProducts, addProduct]);
-      updatedProducts(setProductDetails([...productDetails, addProduct]));
+      updatedProducts(setProductDetails([...productDetails, {
+        id: addProduct.id,
+        name: addProduct.name,
+        partNumber: addProduct.partNumber,
+        brand: addProduct.brand,
+        status: addProduct.status,
+        category: addProduct.category,
+        categoryName: addProduct.categoryName,
+        cost: addProduct.cost,
+        selling: addProduct.selling,
+        quantity: addProduct.quantity,
+      }]));
       setStoreProducts([...storeProducts, { ...product, id: currentId }]);
       setProduct(initialState);
     }
@@ -160,7 +168,7 @@ const AddProduct = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (update) {
-      dispatch(updateProduct(product));
+      dispatch(updateProduct({ ...product, stockId: product.stock }));
       updateState();
     } else {
       if (checkDuplicate(product)) return;
@@ -186,6 +194,7 @@ const AddProduct = (props) => {
           handleUpdate={handleUpdate}
           handleDelete={handleDelete}
           update={update}
+          action
         />
       </ListWrapper>
     </>
@@ -194,8 +203,7 @@ const AddProduct = (props) => {
 
 AddProduct.propTypes = {
   updatedProducts: PropTypes.func.isRequired,
-  detailsId: PropTypes.number.isRequired,
-  storeProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  storeProducts: PropTypes.arrayOf(PropTypes.object),
   setStoreProducts: PropTypes.func.isRequired,
 };
 

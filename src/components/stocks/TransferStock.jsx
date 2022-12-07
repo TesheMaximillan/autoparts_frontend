@@ -5,7 +5,6 @@ import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import Notification from '../common/Notification';
-import FormGroup from '../modules/FormGroup';
 import styles from './TransferStock.module.scss';
 import Loading from '../common/Loading';
 import TransferProductList from './TransferProductList';
@@ -13,7 +12,8 @@ import { hideNotification, showNotification } from '../../store/reducers/uiReduc
 import { createTransfer } from '../../store/actions/transferActions';
 
 const {
-  container, transferBtn, text, icon, form, mainContainer, formContainer,
+  container, transferBtn, text, icon, form, mainContainer,
+  formContainer, input, inputDate, inputp, inputq,
 } = styles;
 
 const TransferStock = () => {
@@ -37,14 +37,16 @@ const TransferStock = () => {
     })),
   }));
 
-  const [transfer, setTransfer] = useState({
+  const initialTransfer = {
     from: productsStocks[0].stockId,
     to: productsStocks[1].stockId,
     productName: '',
     productID: 0,
     quantity: 1,
     date: new Date().toISOString().slice(0, 10),
-  });
+  };
+
+  const [transfer, setTransfer] = useState(initialTransfer);
 
   const {
     from, to, productName, quantity, productID, date,
@@ -77,11 +79,11 @@ const TransferStock = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'productName') {
+    if (name === 'productName' || name === 'date' || name === 'from' || name === 'to') {
       setTransfer({ ...transfer, [name]: value });
-    } else if (name === 'date') {
-      setTransfer({ ...transfer, [name]: value });
-    } else {
+    }
+
+    if (name === 'quantity') {
       setTransfer({ ...transfer, [name]: parseInt(value, 10) });
     }
 
@@ -109,17 +111,21 @@ const TransferStock = () => {
       return;
     }
 
-    console.log('date', date);
-
-    if (quantity > productsStocks
+    const stockQty = productsStocks
       .filter((stock) => stock.stockId === parseInt(from, 10))[0].products
-      .filter((product) => product.id === productID)[0].quantity) {
+      .filter((product) => product.id === productID).quantity;
+
+    if (quantity > stockQty) {
       dispatch(showNotification({ message: ['You cannot transfer more than the available quantity'], isError: true, isOpen: false }));
       setTimeout(() => dispatch(hideNotification()), 3000);
+      return;
     }
+
     dispatch(createTransfer({
-      from, to, productID, quantity,
+      from, to, productID, quantity, date,
     }));
+
+    setTransfer(initialTransfer);
   };
 
   const toggleBtn = (
@@ -150,12 +156,16 @@ const TransferStock = () => {
         {isError && <Notification />}
         <form onSubmit={handleSubmit}>
           <div className={formContainer}>
-            <FormGroup type="date" name="date" value={date} handleChange={handleChange} title="Date:" classname="date" />
+            <input type="date" id="date" name="date" value={date} onChange={handleChange} className={`${input} ${inputDate}`} />
             <div className={form}>
-              <FormGroup type="text" name="productName" value={productName} handleInputFocus={handleInputFocus} handleInputBlur={handleInputBlur} title="Product Name:" handleChange={handleChange} />
-              <FormGroup type="select" name="from" value={from} title="From:" handleChange={handleChange} options={stockOptions} />
-              <FormGroup type="select" name="to" value={to} title="To:" handleChange={handleChange} options={stockOptions} />
-              <FormGroup type="number" name="quantity" value={quantity} title="Quantity:" handleChange={handleChange} />
+              <input type="text" name="productName" value={productName} onChange={handleChange} onBlur={handleInputBlur} onFocus={handleInputFocus} className={`${input} ${inputp}`} placeholder="ProductName" required />
+              <select type="select" name="from" value={from} onChange={handleChange} className={input}>
+                {stockOptions}
+              </select>
+              <select type="select" name="to" value={to} onChange={handleChange} className={input}>
+                {stockOptions}
+              </select>
+              <input type="number" name="quantity" value={quantity} onChange={handleChange} className={`${input} ${inputq}`} placeholder="Quantity" required />
               <button type="submit" className="saveBtn"><BsFillCheckCircleFill /></button>
             </div>
           </div>

@@ -17,8 +17,15 @@ const fetchTransfers = createAsyncThunk(
 
 const createTransfer = createAsyncThunk(
   'transfer/createTransfer',
-  async (transfer, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
+      const transfer = {
+        from: data.from,
+        to: data.to,
+        product_id: data.productID,
+        quantity: data.quantity,
+        date: data.date,
+      };
       const response = await api.post('/transfers', transfer, { withCredentials: true });
       return response.data;
     } catch (error) {
@@ -40,7 +47,13 @@ const updateTransfer = createAsyncThunk(
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(showNotification({ message: error.message, isError: true, isOpen: true }));
+      if (error.response.status === 422) {
+        thunkAPI.dispatch(showNotification({
+          message: error.response.data.errors,
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }

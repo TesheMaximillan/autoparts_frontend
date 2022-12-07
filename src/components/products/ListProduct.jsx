@@ -39,7 +39,6 @@ const ListProduct = (props) => {
   };
 
   const handleOk = () => {
-    console.log('updateProduct', updateProduct);
     setOpen(false);
     setFilteredStockProducts(products.map((product) => {
       if (product.id === selectId) {

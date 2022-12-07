@@ -22,6 +22,7 @@ const uiSlice = createSlice({
     },
     hideNotification: (state) => {
       state.notification.isOpen = false;
+      state.notification.isError = false;
     },
     showAlert: (state, { payload }) => {
       state.alert.message = payload;

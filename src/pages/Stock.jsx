@@ -13,6 +13,7 @@ import MainBody from '../components/common/MainBody';
 import AddStock from '../components/stocks/AddStock';
 import StockDetails from '../components/stocks/StockDetails';
 import Loading from '../components/common/Loading';
+import TransferStock from '../components/stocks/TransferStock';
 
 const { icon } = styles;
 
@@ -50,8 +51,11 @@ const Stock = () => {
         </TopBar>
         <MainBody>
           {stocks && <Loading />}
+          {!stocks && <TransferStock />}
           {!stocks && show
-          && <AddStock updatedStocks={updatedStocks} detailsId={parseInt(id, 10)} />}
+          && (
+            <AddStock updatedStocks={updatedStocks} detailsId={parseInt(id, 10)} />
+          )}
           {!stocks && !show
           && (
             <StockDetails

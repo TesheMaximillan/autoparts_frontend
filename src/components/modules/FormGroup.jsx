@@ -5,13 +5,15 @@ import styles from './FormGroup.module.scss';
 
 const FormGroup = (props) => {
   const {
-    type, name, handleChange, title, value, options,
+    type, name, handleChange, title, value, options, handleInputFocus, handleInputBlur, classname,
   } = props;
 
   const { formGroup } = styles;
 
+  const classtype = classname ? `${formGroup} ${classname}` : formGroup;
+
   return (
-    <div className={formGroup}>
+    <div className={classtype}>
       <label htmlFor={name}>
         {title}
         {' '}
@@ -27,6 +29,8 @@ const FormGroup = (props) => {
             name={name}
             value={value}
             onChange={handleChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
             required
           />
         )}

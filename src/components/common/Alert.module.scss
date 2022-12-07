@@ -6,8 +6,9 @@
   height: 20vh;
   border-radius: 0.5rem;
   padding: 2rem;
-  background-color: var(--white);
+  background-color: var(--white-alert);
   font-weight: 700;
+  z-index: 100;
 }
 
 .success {

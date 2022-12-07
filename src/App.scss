@@ -2,6 +2,7 @@
 
 :root {
   --white: rgb(255, 255, 255);
+  --white-alert: rgba(255, 255, 255, 0.8);
   --light-grey: #ECEEF3;
   --warm-grey: rgb(140, 140, 142);
   --dark-grey: rgb(100, 100, 102);
@@ -185,18 +186,6 @@ h5 {
       background-color: var(--color-primary-1);
     }
   }
-
-  &__sucess {
-
-  }
-
-  &__warning {
-
-  }
-
-  &__danger {
-
-  }
 }
 
 .active {
@@ -207,4 +196,32 @@ h5 {
 a {
   text-decoration: none;
   color: var(--dark-grey)
+}
+
+.btnProperties {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--white);
+  margin: 0.2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.cancelBtn {
+  color: var(--color-danger);
+  @extend .btnProperties;
+}
+
+.saveBtn {
+  color: var(--color-success);
+  @extend .btnProperties;
 }

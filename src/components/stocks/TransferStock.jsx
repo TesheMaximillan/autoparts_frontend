@@ -79,11 +79,11 @@ const TransferStock = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'productName' || name === 'date' || name === 'from' || name === 'to') {
+    if (name === 'productName' || name === 'date') {
       setTransfer({ ...transfer, [name]: value });
     }
 
-    if (name === 'quantity') {
+    if (name === 'from' || name === 'to' || name === 'quantity') {
       setTransfer({ ...transfer, [name]: parseInt(value, 10) });
     }
 
@@ -103,23 +103,39 @@ const TransferStock = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (from === to) {
-      dispatch(showNotification({ message: ['You cannot transfer to the same stock'], isError: true, isOpen: false }));
-      setTimeout(() => dispatch(hideNotification()), 3000);
-      return;
+  const errorHandler = (message) => {
+    dispatch(showNotification({ message, isError: true, isOpen: false }));
+    setTimeout(() => dispatch(hideNotification()), 3000);
+  };
+
+  const isValid = () => {
+    if (productID === 0) {
+      errorHandler(['Please select a product']);
+      return false;
     }
 
     const stockQty = productsStocks
-      .filter((stock) => stock.stockId === parseInt(from, 10))[0].products
-      .filter((product) => product.id === productID).quantity;
+      .filter((stock) => stock.stockId === parseInt(from, 10))[0]
+      .products.filter((product) => product.id === productID)[0].quantity;
 
-    if (quantity > stockQty) {
-      dispatch(showNotification({ message: ['You cannot transfer more than the available quantity'], isError: true, isOpen: false }));
-      setTimeout(() => dispatch(hideNotification()), 3000);
-      return;
+    if (from === to) {
+      errorHandler(['You cannot transfer to the same stock']);
+      return false;
+    } if (quantity < 1) {
+      errorHandler(['You cannot transfer less than 1']);
+      return false;
+    } if (quantity > stockQty) {
+      errorHandler(['You cannot transfer more than the stock quantity']);
+      return false;
     }
+
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!isValid()) return;
 
     dispatch(createTransfer({
       from, to, productID, quantity, date,

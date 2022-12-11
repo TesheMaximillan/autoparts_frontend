@@ -1,8 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState } from 'react';
-import { RiTruckFill } from 'react-icons/ri';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
-import { AiFillCloseCircle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import Notification from '../common/Notification';
 import styles from './TransferStock.module.scss';
@@ -12,12 +10,11 @@ import { hideNotification, showNotification } from '../../store/reducers/uiReduc
 import { createTransfer } from '../../store/actions/transferActions';
 
 const {
-  container, transferBtn, text, icon, form, mainContainer,
+  form, container,
   formContainer, input, inputDate, inputp, inputq,
 } = styles;
 
 const TransferStock = () => {
-  const [show, setShow] = React.useState(false);
   const isError = useSelector((state) => state.ui.notification.isError);
   const stocksProducts = useSelector((state) => state.product.stocksProducts);
   const [focus, setFocus] = useState(false);
@@ -63,10 +60,6 @@ const TransferStock = () => {
   };
 
   const [filteredProducts, setFilteredProducts] = useState(products);
-
-  const toggleShow = () => {
-    setShow(!show);
-  };
 
   const handleProductClick = (id, name) => {
     setTransfer({
@@ -144,18 +137,6 @@ const TransferStock = () => {
     setTransfer(initialTransfer);
   };
 
-  const toggleBtn = (
-    <>
-      {!show && (
-      <button type="button" className={transferBtn} onClick={toggleShow}>
-        <span className={text}>Transfer</span>
-        <span className={icon}><RiTruckFill /></span>
-      </button>
-      )}
-      {show && <button type="button" className="cancelBtn" onClick={toggleShow}><AiFillCloseCircle /></button>}
-    </>
-  );
-
   const stockOptions = productsStocks.length ? (productsStocks.map((stock) => (
     <option key={stock.stockId} value={stock.stockId}>
       {stock.stockName}
@@ -166,36 +147,31 @@ const TransferStock = () => {
 
   return (
     <div className={container}>
-      {toggleBtn}
-      {show && (
-      <div className={mainContainer}>
-        {isError && <Notification />}
-        <form onSubmit={handleSubmit}>
-          <div className={formContainer}>
-            <input type="date" id="date" name="date" value={date} onChange={handleChange} className={`${input} ${inputDate}`} />
-            <div className={form}>
-              <input type="text" name="productName" value={productName} onChange={handleChange} onBlur={handleInputBlur} onFocus={handleInputFocus} className={`${input} ${inputp}`} placeholder="ProductName" required />
-              <select type="select" name="from" value={from} onChange={handleChange} className={input}>
-                {stockOptions}
-              </select>
-              <select type="select" name="to" value={to} onChange={handleChange} className={input}>
-                {stockOptions}
-              </select>
-              <input type="number" name="quantity" value={quantity} onChange={handleChange} className={`${input} ${inputq}`} placeholder="Quantity" required />
-              <button type="submit" className="saveBtn"><BsFillCheckCircleFill /></button>
-            </div>
+      {isError && <Notification />}
+      <form onSubmit={handleSubmit}>
+        <div className={formContainer}>
+          <input type="date" id="date" name="date" value={date} onChange={handleChange} className={`${input} ${inputDate}`} />
+          <div className={form}>
+            <input type="text" name="productName" value={productName} onChange={handleChange} onBlur={handleInputBlur} onFocus={handleInputFocus} className={`${input} ${inputp}`} placeholder="ProductName" required />
+            <select type="select" name="from" value={from} onChange={handleChange} className={input}>
+              {stockOptions}
+            </select>
+            <select type="select" name="to" value={to} onChange={handleChange} className={input}>
+              {stockOptions}
+            </select>
+            <input type="number" name="quantity" value={quantity} onChange={handleChange} className={`${input} ${inputq}`} placeholder="Quantity" required />
+            <button type="submit" className="saveBtn"><BsFillCheckCircleFill /></button>
           </div>
-        </form>
-        <div className="stockProducts">
-          {focus && productName.trim() && (
+        </div>
+      </form>
+      <div className="stockProducts">
+        {focus && productName.trim() && (
           <TransferProductList
             products={filteredProducts}
             handleProductClick={handleProductClick}
           />
-          )}
-        </div>
+        )}
       </div>
-      )}
     </div>
   );
 };

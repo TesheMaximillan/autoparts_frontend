@@ -1,0 +1,40 @@
+.btn {
+  background-image: var(--gradient-2);
+  box-shadow: var(--shadow-1);
+  border-radius: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  font-size: 1.6rem;
+  font-family: inherit;
+  font-weight: 700;
+  width: 15rem;
+  color: var(--color-primary-6);
+  border: 1px solid var(--color-primary);
+  transition: all 0.4s ease-in-out;
+
+
+  .icon {
+    margin-right: 1rem;
+    font-size: 2rem;
+    transition: all 0.3s ease-in-out;
+    color: var(--color-secondary);
+  }
+
+  .active, &:hover {
+    transform: scale(1);
+    background-image: var(--gradient-5);
+    color: var(--color-primary);
+  }
+
+  &:active {
+    transform: translateY(2px);
+  }
+
+  &:first-child {
+    border-radius: 0 0 0 0.5rem;
+  }
+
+  &:last-child {
+    border-radius: 0 0.5rem 0 0;
+  }
+}

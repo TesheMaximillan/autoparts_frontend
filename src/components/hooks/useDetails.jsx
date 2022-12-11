@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 const useDetails = (props) => {
   const {
-    changeShow, newItems, selectId, setUpdateItem, deleteItem,
+    changeShow, newItems, setUpdateItem, deleteItem,
   } = props;
 
   const dispatch = useDispatch();
@@ -25,7 +25,6 @@ const useDetails = (props) => {
 
   const handleUpdate = (idd, item) => {
     dispatch(setUpdateItem(item));
-    selectId(idd);
     changeShow();
   };
 

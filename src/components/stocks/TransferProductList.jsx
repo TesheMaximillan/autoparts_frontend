@@ -13,10 +13,10 @@ const TransferProductList = (props) => {
         <thead>
           <tr>
             <th>Id</th>
-            <th>Product Name</th>
+            <th>Name</th>
             <th>Part Number</th>
             <th>Type</th>
-            <th>Quantity</th>
+            <th>Qty</th>
           </tr>
         </thead>
         <tbody>

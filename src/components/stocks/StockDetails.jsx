@@ -1,23 +1,18 @@
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './StockDetails.module.scss';
-import { setUpdateStock } from '../../store/reducers/stockReducer';
-import { deleteStock } from '../../store/actions/stockActions';
-import useDetails from '../hooks/useDetails';
 import InputWrapper from '../common/InputWrapper';
 import SearchInput from '../modules/SearchInput';
 import ListWrapper from '../common/ListWrapper';
-import ListDetail from '../common/ListDetail';
 import { deleteProduct } from '../../store/actions/productActions';
 import ListProduct from '../products/ListProduct';
 import Notification from '../common/Notification';
+import FormGroup from '../modules/FormGroup';
 
-const { stockList, wrapper, productList } = styles;
+const { wrapper, productList } = styles;
 
-const StockDetails = (props) => {
-  const update = useSelector((state) => state.stock.stockUpdate.update);
+const StockDetails = () => {
   const productUpdate = useSelector((state) => state.product.productUpdate.update);
   const stocksProducts = useSelector((state) => state.product.stocksProducts);
   const stocks = useSelector((state) => state.stock.stocks);
@@ -26,7 +21,8 @@ const StockDetails = (props) => {
 
   const loading = useSelector((state) => state.stock.fetching);
   const dispatch = useDispatch();
-  const { changeShow, newStocks, selectId } = props;
+
+  if (!stocks.length) return <div>Loading...</div>;
   if (!stocksProducts) return <div>Loading...</div>;
 
   const productss = stocksProducts.map((items) => items.products.map((item) => ({
@@ -62,6 +58,11 @@ const StockDetails = (props) => {
     quantity: 0,
   });
 
+  const [initialStock, setInitialStock] = useState({
+    id: stocks[0].id,
+    name: stocks[0].name,
+  });
+
   const selectStock = (id) => {
     const stockProducts = productss.filter((product) => product.stockId === id);
     setFilteredStockProducts(stockProducts);
@@ -79,10 +80,28 @@ const StockDetails = (props) => {
     ));
   };
 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    const stock = stocks.find((item) => item.id === parseInt(value, 10));
+    setInitialStock({
+      id: stock.id,
+      name: stock.name,
+    });
+    selectStock(stock.id);
+  };
+
   const handleProductUpdate = (id, product) => {
     setUpdateProduct(product);
     setId(id);
   };
+
+  const stockOptions = stocks.length ? (stocks.map((stock) => (
+    <option key={stock.id} value={stock.id}>
+      {stock.name}
+    </option>
+  ))) : (
+    <option value="" />
+  );
 
   const handleProductDelete = (id, stockID) => {
     setFilteredStockProducts(filteredStockProducts.filter((item) => item.id !== id));
@@ -91,38 +110,16 @@ const StockDetails = (props) => {
     }
   };
 
-  const addProps = {
-    changeShow,
-    selectId,
-    newItems: newStocks,
-    setUpdateItem: setUpdateStock,
-    deleteItem: deleteStock,
-  };
-
-  const {
-    handleSearch, handleUpdate, handleDelete,
-    filteredItems: filteredStocks,
-  } = useDetails(addProps);
-
   return (
     <>
       <InputWrapper>
-        <SearchInput handleSearch={handleSearch} type="any" title="Search" />
-        <SearchInput handleSearch={handleProductSearch} type="any" title="Search Product" />
+        <FormGroup type="select" name="stock" value={initialStock.name} title="Stock" handleChange={handleChange} options={stockOptions} />
+        <SearchInput handleSearch={handleProductSearch} type="any" title="Search" />
       </InputWrapper>
       {isOpen && <Notification />}
       {loading ? <h1>Loading...</h1> : (
         <ListWrapper height="details">
           <div className={wrapper}>
-            <div className={stockList}>
-              <ListDetail
-                items={filteredStocks}
-                handleUpdate={handleUpdate}
-                handleDelete={handleDelete}
-                update={update}
-                selectItem={selectStock}
-              />
-            </div>
             <div className={productList}>
               <ListProduct
                 products={filteredStockProducts}
@@ -141,12 +138,6 @@ const StockDetails = (props) => {
       )}
     </>
   );
-};
-
-StockDetails.propTypes = {
-  changeShow: PropTypes.func.isRequired,
-  newStocks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectId: PropTypes.func.isRequired,
 };
 
 export default StockDetails;

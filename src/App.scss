@@ -6,14 +6,17 @@
   --light-grey: #ECEEF3;
   --warm-grey: rgb(140, 140, 142);
   --dark-grey: rgb(100, 100, 102);
-  --color-primary: #4d5992;
-  --color-primary-1: #6d779e;
-  --color-primary-2: #8d95aa;
-  --color-primary-3: #e8ecff;
+  --color-primary: #3a3e58;
+  --color-primary-1: #464A61;
+  --color-primary-2: #52556a;
+  --color-primary-3: #6a6c7b;
+  --color-primary-4: #99999e;
+  --color-primary-5: #c9c7c1;
+  --color-primary-6: #e1ded2;
   --color-primary-dark: rgb(25, 25, 35);
-  --color-hover: rgba(140, 140, 142, 0.3);
   --color-secondary: rgb(255, 193, 7);
   --color-secondary-dark: rgb(255, 160, 0);
+  --color-hover: rgba(140, 140, 142, 0.3);
   --color-danger: rgb(232, 0, 0);
   --color-danger-light: rgba(255, 211, 211, 0.9);
   --color-success: rgb(0, 192, 0);
@@ -21,9 +24,14 @@
 
   --shadow-1: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, gba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   --shadow-2: inset rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, inset rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  --shadow-3: inset rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, inset rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  --shadow-4: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  --shadow-3: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  --shadow-4: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 
+  --gradient-1: linear-gradient( 177.9deg,  rgba(58,62,88,1) 3.6%, rgba(119,127,148,1) 105.8% );
+  --gradient-2: radial-gradient( circle farthest-corner at 10% 20%,  rgba(90,92,106,1) 0%, rgba(32,45,58,1) 81.3% );
+  --gradient-3: linear-gradient( 89.7deg,  rgba(0,0,0,1) -10.7%, rgba(53,92,125,1) 88.8% );
+  --gradient-4: radial-gradient( circle farthest-corner at 10% 20%,  rgba(69,86,102,0.8) 0%, rgba(34,34,34,0.8) 90% );
+  --gradient-5: radial-gradient( circle 1224px at 10.6% 8.8%,  rgba(255,255,255,1) 0%, rgba(153,202,251,1) 100.2% );
 }
 
 ::-webkit-scrollbar {
@@ -189,7 +197,7 @@ h5 {
 }
 
 .active {
-  background-color: var(--color-primary);
+  background-image: var(--gradient-2);
   color: var(--white) !important;
 }
 

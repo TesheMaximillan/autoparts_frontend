@@ -1,69 +1,74 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { FaStore } from 'react-icons/fa';
-import { MdOutlineAddCircle } from 'react-icons/md';
-
-import styles from './Stock.module.scss';
+import { IoStorefrontSharp } from 'react-icons/io5';
+import { RiTruckFill } from 'react-icons/ri';
 import MainContainer from '../components/common/MainContainer';
 import Sidebar from '../components/common/Sidebar';
 import SubContainer from '../components/common/SubContainer';
 import TopBar from '../components/common/Topbar';
-import Navbar from '../components/common/Navbar';
 import MainBody from '../components/common/MainBody';
-import AddStock from '../components/stocks/AddStock';
 import StockDetails from '../components/stocks/StockDetails';
 import Loading from '../components/common/Loading';
 import TransferStock from '../components/stocks/TransferStock';
+import Navbar2 from '../components/modules/Navbar2';
+import styles from './Stock.module.scss';
+import Navbtn from '../components/modules/Navbtn';
+import RightSidebarWrapper from '../components/common/RightSidebarWrapper';
 
 const { icon } = styles;
 
 const Stock = () => {
-  const [show, setShow] = useState(true);
-  const changeShow = () => { setShow(true); };
   const stocks = useSelector((state) => state.stock.fetching);
+  const [active, setActive] = useState('');
 
-  const navLinks = [
+  const handleAdd = () => {
+    setActive('Add Stock');
+  };
+
+  const handleTransfer = () => {
+    setActive('Transfer');
+  };
+
+  const closeSidebar = () => {
+    setActive('');
+  };
+
+  const navbtn = [
     {
-      id: 1, name: 'New Stock', icon: <MdOutlineAddCircle className={icon} />, show: true,
+      id: 1,
+      name: 'Add Stock',
+      icon: <IoStorefrontSharp className={icon} />,
+      handleClick: handleAdd,
     },
     {
-      id: 2, name: 'Stocks', icon: <FaStore className={icon} />, show: false,
+      id: 2,
+      name: 'Transfer',
+      icon: <RiTruckFill className={icon} />,
+      handleClick: handleTransfer,
     },
   ];
 
-  const [stockks, setStockks] = useState();
-  const [id, setId] = useState(0);
-
-  const updatedStocks = (stock) => {
-    setStockks(stock);
-  };
-
-  const selectId = (stockId) => {
-    setId(stockId);
-  };
+  const rightSidebar = active === 'Add Stock' ? '' : <TransferStock />;
 
   return (
     <MainContainer>
       <Sidebar />
       <SubContainer>
         <TopBar>
-          <Navbar navLinks={navLinks} setShow={setShow} titleName="Stock" />
+          <Navbar2 title="Stocks" icon={navbtn[0].icon}>
+            <Navbtn data={navbtn[0]} />
+            <Navbtn data={navbtn[1]} />
+          </Navbar2>
         </TopBar>
         <MainBody>
           {stocks && <Loading />}
-          {!stocks && <TransferStock />}
-          {!stocks && show
+          {!stocks
           && (
-            <AddStock updatedStocks={updatedStocks} detailsId={parseInt(id, 10)} />
+          <RightSidebarWrapper closeSidebar={closeSidebar} show={active}>
+            {rightSidebar}
+          </RightSidebarWrapper>
           )}
-          {!stocks && !show
-          && (
-            <StockDetails
-              changeShow={changeShow}
-              newStocks={stockks}
-              selectId={selectId}
-            />
-          )}
+          {!stocks && <StockDetails />}
         </MainBody>
       </SubContainer>
     </MainContainer>

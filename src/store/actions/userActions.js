@@ -26,9 +26,13 @@ const loginUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (error.response.status === 401) {
-        thunkAPI.dispatch(showNotification({ message: { Invalid: ['Username or Password'] }, isError: true, isOpen: true }));
+        thunkAPI.dispatch(showNotification({
+          message: ['Invalid Username or Password'],
+          isError: true,
+          isOpen: true,
+        }));
       } else {
-        thunkAPI.dispatch(showNotification({ message: { Server: ['is not available'] }, isError: true, isOpen: true }));
+        thunkAPI.dispatch(showNotification({ message: ['Server is not available'], isError: true, isOpen: true }));
       }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);

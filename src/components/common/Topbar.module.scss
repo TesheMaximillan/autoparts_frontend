@@ -1,11 +1,5 @@
 .topbar {
-  background-color: var(--color-primary-1);
+  background-image: var(--gradient-1);
   height: 9.5rem;
   margin-bottom: 1rem;
-
-  .topSpacer {
-    display: block;
-    height: 3rem;
-    background-color: var(--color-primary);
-  }
 }

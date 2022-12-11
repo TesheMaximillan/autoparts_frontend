@@ -1,0 +1,16 @@
+.container {
+  position: absolute;
+  border-top: 2rem solid var(--color-primary);
+  z-index: 10;
+  right: -100%;
+  background-image: var(--gradient-4);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  width: 56rem;
+  height: 100%;
+  transition: all 0.4s ease-in-out;
+}
+
+.active {
+  right: 0rem;
+}

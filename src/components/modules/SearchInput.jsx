@@ -6,8 +6,6 @@ const SearchInput = ({ handleSearch, type, title }) => {
   const { searchInput } = styles;
   return (
     <label htmlFor={type} className={searchInput}>
-      {title}
-      &nbsp;
       <input type="text" id={type} placeholder={`${title} 🔎`} name={type} onChange={handleSearch} />
     </label>
   );

@@ -7,11 +7,12 @@ import { ImPencil2 } from 'react-icons/im';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './ListProduct.module.scss';
 import { updateProduct as updateeProduct } from '../../store/actions/productActions';
 
 const ListProduct = (props) => {
+  const categories = useSelector((state) => state.category.categories);
   const {
     container, btns, updateBtn, deleteBtn, disableBtn,
     inputField, btnInput, ok, cancel,
@@ -77,6 +78,16 @@ const ListProduct = (props) => {
     return id;
   };
 
+  const categoryOptions = categories.length ? (
+    categories.map((category) => (
+      <option key={category.id} value={category.id}>
+        {category.name}
+      </option>
+    ))
+  ) : (
+    <option value="" />
+  );
+
   return (
     <div className={container}>
       <table>
@@ -121,7 +132,11 @@ const ListProduct = (props) => {
                 <td>{products.indexOf(product) + 1}</td>
                 <td><input name="name" type="text" value={updateProduct.name} onChange={handleChange} /></td>
                 <td><input name="partNumber" type="text" value={updateProduct.partNumber} onChange={handleChange} /></td>
-                <td><input name="categoryName" type="text" value={updateProduct.categoryName} onChange={handleChange} /></td>
+                <td>
+                  <select id="category" name="category" value={updateProduct.categoryName} onChange={handleChange}>
+                    {categoryOptions}
+                  </select>
+                </td>
                 <td><input name="brand" type="text" value={updateProduct.brand} onChange={handleChange} /></td>
                 <td><input name="status" type="text" value={updateProduct.status} onChange={handleChange} /></td>
                 <td><input name="cost" type="number" value={updateProduct.cost} onChange={handleChange} /></td>

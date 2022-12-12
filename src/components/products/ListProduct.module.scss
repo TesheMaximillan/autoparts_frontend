@@ -130,12 +130,11 @@
 
 .inputField {
   height: 3rem;
-  background-color: var(--color-primary-3) !important;
 
   td {
     padding: 0.2rem !important;
 
-    input {
+    input, select {
       width: 100%;
       padding: 0.5rem;
       border: none;

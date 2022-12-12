@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.scss';
 import Alert from './components/common/Alert';
 import RequireAuth from './components/common/RequireAuth';
-import Categories from './pages/Categories';
+import Category from './pages/Category';
 import Customer from './pages/Customer';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
@@ -71,7 +71,7 @@ const App = () => {
           <Route element={<RequireAuth />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/products" element={<Product />} />
-            <Route path="/categories" element={<Categories />} />
+            <Route path="/categories" element={<Category />} />
             <Route path="/stocks" element={<Stock />} />
             <Route path="/customers" element={<Customer />} />
             <Route path="/vendors" element={<Vendor />} />

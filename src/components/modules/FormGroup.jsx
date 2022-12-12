@@ -8,15 +8,13 @@ const FormGroup = (props) => {
     type, name, handleChange, title, value, options, handleInputFocus, handleInputBlur, classname,
   } = props;
 
-  const { formGroup } = styles;
+  const { formGroup, dropdown } = styles;
 
-  const classtype = classname ? `${formGroup} ${classname}` : formGroup;
+  const classtype = classname === 'dropdown' ? `${formGroup} ${dropdown}` : formGroup;
 
   return (
     <div className={classtype}>
       <label htmlFor={name}>
-        {title}
-        {' '}
         {options ? (
           <select id={name} name={name} value={value} onChange={handleChange} required>
             {options}

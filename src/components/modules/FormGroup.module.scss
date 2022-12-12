@@ -1,8 +1,7 @@
 .common-input {
-  margin-top: 0.5rem;
   padding: 0.5rem;
   border: 1px solid var(--light-grey);
-  border-radius: 0.2rem;
+  border-radius: 0.5rem;
   font-family: inherit;
   font-size: 1.25rem;
   font-weight: 700;
@@ -45,6 +44,7 @@
     select {
       @extend .common-input;
       line-height: 5rem;
+      cursor: pointer;
 
       &::placeholder {
         color: var(--warm-grey);
@@ -56,5 +56,15 @@
         background-color: var(--color-primary-6);
       }
     }
+  }
+}
+
+.dropdown {
+  select {
+    width: 100%;
+    border-bottom: 3px solid var(--color-secondary) !important;
+    background-color: var(--color-primary) !important;
+    color: var(--white) !important;
+    text-transform: uppercase;
   }
 }

@@ -6,14 +6,14 @@
   border-radius: 0.5rem;
   background-color: var(--light-grey);
   padding: 1rem;
-  max-height: 55vh;
+  max-height: calc(100vh - 42.9rem);
   overflow-y: auto;
-
+  
   table {
     width: 100%;
     text-align: center;
     table-layout: fixed;
-
+    
     thead {
 
       tr {

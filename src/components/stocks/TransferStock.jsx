@@ -150,9 +150,10 @@ const TransferStock = () => {
       {isError && <Notification />}
       <form onSubmit={handleSubmit}>
         <div className={formContainer}>
+          <h2>Transfer Stock</h2>
           <input type="date" id="date" name="date" value={date} onChange={handleChange} className={`${input} ${inputDate}`} />
           <div className={form}>
-            <input type="text" name="productName" value={productName} onChange={handleChange} onBlur={handleInputBlur} onFocus={handleInputFocus} className={`${input} ${inputp}`} placeholder="ProductName" required />
+            <input type="text" name="productName" value={productName} onChange={handleChange} onBlur={handleInputBlur} onFocus={handleInputFocus} className={`${input} ${inputp}`} placeholder="Name" required />
             <select type="select" name="from" value={from} onChange={handleChange} className={input}>
               {stockOptions}
             </select>

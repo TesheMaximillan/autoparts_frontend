@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { hideNotification, showNotification } from '../../store/reducers/uiReducers';
 
 const useAdd = (props) => {
   const {
-    component, itemUpdate, itemData, items, updatedItems,
-    createItem,
+    component, items, createItem,
   } = props;
 
   const [item, setItem] = useState({ name: '' });
@@ -13,20 +12,9 @@ const useAdd = (props) => {
 
   const id = items.length ? items[items.length - 1].id + 1 : 0;
   const [currentId, setCurrentId] = useState(id);
-  const [itemDetails, setItemDetails] = useState(items);
   const { name } = item;
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (itemUpdate) {
-      setItem(itemData);
-    }
-  }, [itemUpdate]);
-
-  useEffect(() => {
-    updatedItems(itemDetails);
-  }, [itemDetails]);
 
   const handleChange = (e) => {
     setItem({ ...item, [e.target.name]: e.target.value });
@@ -34,7 +22,6 @@ const useAdd = (props) => {
 
   const createState = () => {
     setCurrentId(currentId + 1);
-    updatedItems(setItemDetails([...itemDetails, { id: currentId, name }]));
     setStoreItems([...storeItems, { id: currentId, name }]);
     setItem({ name: '' });
   };

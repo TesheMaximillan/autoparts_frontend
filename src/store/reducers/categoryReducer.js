@@ -11,7 +11,6 @@ const initialState = {
     category: {},
   },
   loading: false,
-  fetching: false,
   error: null,
 };
 
@@ -31,12 +30,10 @@ const categorySlice = createSlice({
   extraReducers: {
     [fetchCategories.pending]: (state) => {
       state.loading = true;
-      state.fetching = true;
     },
     [fetchCategories.fulfilled]: (state, { payload }) => {
       state.categories = payload;
       state.loading = false;
-      state.fetching = false;
     },
     [fetchCategories.rejected]: (state, { payload }) => {
       state.error = payload;

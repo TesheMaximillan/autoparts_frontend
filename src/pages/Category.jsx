@@ -34,12 +34,14 @@ const Category = () => {
       name: 'Add Category',
       icon: <MdOutlineAddCircle className={icon} />,
       handleClick: handleNav,
+      current: active,
     },
     {
       id: 3,
       name: 'Cat. Details',
       icon: <BiCategory className={icon} />,
       handleClick: handleNav,
+      current: active,
     },
   ];
 

@@ -27,12 +27,14 @@ const Product = () => {
       name: 'New Product',
       icon: <MdOutlineAddCircle className={icon} />,
       handleClick: handleNav,
+      current: active,
     },
     {
       id: 2,
       name: 'Product Det.',
       icon: <FaProductHunt className={icon} />,
       handleClick: handleNav,
+      current: active,
     },
   ];
 

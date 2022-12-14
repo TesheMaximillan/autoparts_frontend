@@ -33,18 +33,21 @@ const Stock = () => {
       name: 'Add Stock',
       icon: <IoStorefrontSharp className={icon} />,
       handleClick: handleNav,
+      current: active,
     },
     {
       id: 2,
       name: 'Transfer',
       icon: <RiTruckFill className={icon} />,
       handleClick: handleNav,
+      current: active,
     },
     {
       id: 3,
       name: 'Stock Details',
       icon: <IoStorefrontSharp className={icon} />,
       handleClick: handleNav,
+      current: active,
     },
   ];
 

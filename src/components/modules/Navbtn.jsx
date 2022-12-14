@@ -12,7 +12,7 @@ const Navbtn = ({ data }) => {
   const btnClass = current === name ? `${btn} ${active}` : btn;
 
   return (
-    <button type="button" className={btnClass} onClick={handleClick}>
+    <button type="button" className={btnClass} onClick={() => handleClick(name)}>
       {icon}
       {name}
     </button>

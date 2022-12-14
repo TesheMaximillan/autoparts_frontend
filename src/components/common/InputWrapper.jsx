@@ -2,16 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './InputWrapper.module.scss';
 
-const InputWrapper = ({ children, classname }) => {
+const InputWrapper = ({ children }) => {
   const { container } = styles;
   return (
-    <div className={`${container} ${classname}`}>{children}</div>
+    <div className={container}>{children}</div>
   );
 };
 
 InputWrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  classname: PropTypes.string.isRequired,
 };
 
 export default InputWrapper;

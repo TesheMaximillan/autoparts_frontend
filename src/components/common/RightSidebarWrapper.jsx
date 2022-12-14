@@ -12,7 +12,7 @@ const RightSidebarWrapper = ({ children, show, closeSidebar }) => {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
-        closeSidebar();
+        closeSidebar('');
       }
     };
 
@@ -23,7 +23,7 @@ const RightSidebarWrapper = ({ children, show, closeSidebar }) => {
   }, [ref]);
 
   const toggleBtn = (
-    <button type="button" className="cancelBtn" onClick={closeSidebar}>
+    <button type="button" className="cancelBtn" onClick={() => closeSidebar('')}>
       <AiFillCloseCircle />
     </button>
   );

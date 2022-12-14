@@ -6,10 +6,11 @@ import InputWrapper from '../common/InputWrapper';
 import SearchInput from '../modules/SearchInput';
 import ListWrapper from '../common/ListWrapper';
 import { deleteProduct } from '../../store/actions/productActions';
-import ListProduct from '../products/ListProduct';
 import FormGroup from '../modules/FormGroup';
+import Loading from '../common/Loading';
+import ListStockProducts from './ListStockProducts';
 
-const { wrapper, productList } = styles;
+const { wrapper } = styles;
 
 const Stocks = () => {
   const productUpdate = useSelector((state) => state.product.productUpdate.update);
@@ -17,11 +18,9 @@ const Stocks = () => {
   const stocks = useSelector((state) => state.stock.stocks);
   const categories = useSelector((state) => state.category.categories);
 
-  const loading = useSelector((state) => state.stock.fetching);
   const dispatch = useDispatch();
 
-  if (!stocks.length) return <div>Loading...</div>;
-  if (!stocksProducts) return <div>Loading...</div>;
+  if (!stocks.length || !stocksProducts) return <Loading />;
 
   const productss = stocksProducts.map((items) => items.products.map((item) => ({
     stockId: items.stock.id,
@@ -40,9 +39,9 @@ const Stocks = () => {
 
   const products = productss.filter((product) => product.stockId === stocks[0].id);
   const [filteredStockProducts, setFilteredStockProducts] = useState(products);
-
+  const [initialStock, setInitialStock] = useState(stocks[0].id);
   const [productts, setProductts] = useState(filteredStockProducts);
-  const [id, setId] = useState(-1);
+  const [id, setId] = useState(stocks[0].id);
 
   const [updateProduct, setUpdateProduct] = useState({
     name: '',
@@ -55,8 +54,6 @@ const Stocks = () => {
     cost: 0.0,
     quantity: 0,
   });
-
-  const [initialStock, setInitialStock] = useState(stocks[0].id);
 
   const selectStock = (id) => {
     const stockProducts = productss.filter((product) => product.stockId === id);
@@ -110,25 +107,21 @@ const Stocks = () => {
           <SearchInput handleSearch={handleProductSearch} type="any" title="Search" />
         </div>
       </InputWrapper>
-      {loading ? <h1>Loading...</h1> : (
-        <ListWrapper height="details">
-          <div className={wrapper}>
-            <div className={productList}>
-              <ListProduct
-                products={filteredStockProducts}
-                setFilteredStockProducts={setFilteredStockProducts}
-                handleUpdate={handleProductUpdate}
-                handleDelete={handleProductDelete}
-                update={productUpdate}
-                action
-                selectId={id}
-                updateProduct={updateProduct}
-                setUpdateProduct={setUpdateProduct}
-              />
-            </div>
-          </div>
-        </ListWrapper>
-      )}
+      <ListWrapper height="details">
+        <div className={wrapper}>
+          <ListStockProducts
+            products={filteredStockProducts}
+            setFilteredStockProducts={setFilteredStockProducts}
+            handleUpdate={handleProductUpdate}
+            handleDelete={handleProductDelete}
+            update={productUpdate}
+            action
+            selectId={id}
+            updateProduct={updateProduct}
+            setUpdateProduct={setUpdateProduct}
+          />
+        </div>
+      </ListWrapper>
     </>
   );
 };

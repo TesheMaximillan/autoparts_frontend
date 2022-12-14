@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { BiCategory } from 'react-icons/bi';
 import { MdOutlineAddCircle } from 'react-icons/md';
 import { useSelector } from 'react-redux';
+import AddCategory from '../components/categories/AddCategory';
+import CategoryDetails from '../components/categories/CategoryDetails';
+import Categories from '../components/categories/Categories';
 import Loading from '../components/common/Loading';
 import MainBody from '../components/common/MainBody';
 
@@ -17,19 +20,12 @@ import styles from './Category.module.scss';
 const { icon } = styles;
 
 const Category = () => {
-  const categories = useSelector((state) => state.category.fetching);
+  const categories = useSelector((state) => state.category.loading);
+  const products = useSelector((state) => state.product.loading);
   const [active, setActive] = useState('');
 
-  const handleAdd = () => {
-    setActive('Add Category');
-  };
-
-  const handleDetail = () => {
-    setActive('Category Details');
-  };
-
-  const closeSidebar = () => {
-    setActive('');
+  const handleNav = (nav) => {
+    setActive(nav);
   };
 
   const navbtn = [
@@ -37,19 +33,19 @@ const Category = () => {
       id: 1,
       name: 'Add Category',
       icon: <MdOutlineAddCircle className={icon} />,
-      handleClick: handleAdd,
+      handleClick: handleNav,
     },
     {
       id: 3,
       name: 'Cat. Details',
       icon: <BiCategory className={icon} />,
-      handleClick: handleDetail,
+      handleClick: handleNav,
     },
   ];
 
   const rightSidebar = () => {
-    if (active === 'Add Stock') return '<AddCategory />';
-    if (active === 'Stock Details') return '<CategoryDetails />';
+    if (active === 'Add Category') return <AddCategory />;
+    if (active === 'Cat. Details') return <CategoryDetails />;
     return '';
   };
 
@@ -64,14 +60,14 @@ const Category = () => {
           </Navbar2>
         </TopBar>
         <MainBody>
-          {categories && <Loading />}
-          {!categories
+          {(categories || products) && <Loading />}
+          {(!categories && !products)
           && (
-          <RightSidebarWrapper closeSidebar={closeSidebar} show={active}>
+          <RightSidebarWrapper closeSidebar={handleNav} show={active}>
             {rightSidebar()}
           </RightSidebarWrapper>
           )}
-          {/* {!categories && <Categories />} */}
+          {(!categories && !products) && <Categories />}
         </MainBody>
       </SubContainer>
     </MainContainer>

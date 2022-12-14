@@ -1,0 +1,152 @@
+.btnProperties {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--white);
+  margin: 0.2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.container {
+  position: relative;
+  border: 1px solid var(--light-grey);
+
+  table {
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+
+    thead {
+
+      tr {
+        th {
+          top: 0;
+          position: sticky;
+          padding: 0.5rem;
+          font-size: 1.4rem;
+          font-weight: 700;
+          background-color: var(--color-primary);
+          color: var(--white);
+          text-transform: capitalize;
+
+          &:first-child {
+            width: 3%;
+          }
+
+          &:nth-child(2),
+          &:nth-child(3),
+          &:nth-child(8) {
+            width: 13%;
+          }
+        }
+      }
+    }
+  }
+
+  tbody {
+    background-color: var(--light-grey);
+
+    tr {
+
+      td {
+        font-size: 1.4rem;
+        text-transform: capitalize;
+
+        &:nth-child(2){
+          text-align: left;
+          padding-left: 0.5rem;
+        }
+
+        &:nth-child(3) {
+          text-transform: uppercase;
+        }
+      }
+
+      .price {
+        text-align: right;
+        padding-right: 0.5rem;
+      }
+
+      &:nth-child(even) {
+        background-color: var(--white);
+      }
+
+      .btns {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        .updateBtn {
+          color: var(--color-secondary-dark);
+          @extend .btnProperties;
+        }
+
+        .disableBtn {
+          color: var(--warm-grey);
+          cursor: not-allowed;
+          @extend .btnProperties;
+
+          &:hover {
+            transform: scale(1);
+          }
+        }
+
+        .deleteBtn {
+          color: var(--color-danger);
+          @extend .btnProperties;
+        }
+      }
+
+      .btnInput {
+        height: 3rem;
+
+        .ok {
+          color: var(--color-success);
+          @extend .btnProperties;
+        }
+
+        .cancel {
+          color: var(--color-danger);
+          @extend .btnProperties;
+        }
+      }
+    }
+  }
+}
+
+.inputField {
+  height: 3rem;
+
+  td {
+    padding: 0.2rem !important;
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      border: none;
+      border-bottom: 1px solid var(--color-secondary-dark);
+      border-radius: 0.2rem;
+      font-family: inherit;
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--dark-grey);
+      outline: none;
+      transition: all 0.2s ease-in-out;
+
+      &:focus {
+        transform: scale(1.05);
+        border-bottom: 1px solid var(--color-primary);
+      }
+    }
+  }
+}

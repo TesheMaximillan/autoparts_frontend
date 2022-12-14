@@ -20,23 +20,11 @@ import StockDetails from '../components/stocks/StockDetails';
 const { icon } = styles;
 
 const Stock = () => {
-  const stocks = useSelector((state) => state.stock.fetching);
+  const stocks = useSelector((state) => state.stock.loading);
   const [active, setActive] = useState('');
 
-  const handleAdd = () => {
-    setActive('Add Stock');
-  };
-
-  const handleDetail = () => {
-    setActive('Stock Details');
-  };
-
-  const handleTransfer = () => {
-    setActive('Transfer');
-  };
-
-  const closeSidebar = () => {
-    setActive('');
+  const handleNav = (nav) => {
+    setActive(nav);
   };
 
   const navbtn = [
@@ -44,19 +32,19 @@ const Stock = () => {
       id: 1,
       name: 'Add Stock',
       icon: <IoStorefrontSharp className={icon} />,
-      handleClick: handleAdd,
+      handleClick: handleNav,
     },
     {
       id: 2,
       name: 'Transfer',
       icon: <RiTruckFill className={icon} />,
-      handleClick: handleTransfer,
+      handleClick: handleNav,
     },
     {
       id: 3,
       name: 'Stock Details',
       icon: <IoStorefrontSharp className={icon} />,
-      handleClick: handleDetail,
+      handleClick: handleNav,
     },
   ];
 
@@ -82,7 +70,7 @@ const Stock = () => {
           {stocks && <Loading />}
           {!stocks
           && (
-          <RightSidebarWrapper closeSidebar={closeSidebar} show={active}>
+          <RightSidebarWrapper closeSidebar={handleNav} show={active}>
             {rightSidebar()}
           </RightSidebarWrapper>
           )}

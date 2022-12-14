@@ -1,6 +1,6 @@
 .icon {
-  display: inline-block;
   margin-right: 1rem;
   font-size: 2rem;
-  align-self: center;
+  transition: all 0.3s ease-in-out;
+  color: var(--color-secondary);
 }

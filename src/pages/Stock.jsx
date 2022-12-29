@@ -20,7 +20,7 @@ import StockDetails from '../components/stocks/StockDetails';
 const { icon } = styles;
 
 const Stock = () => {
-  const stocks = useSelector((state) => state.stock.loading);
+  const stocks = useSelector((state) => state.stock.fetching);
   const [active, setActive] = useState('');
 
   const handleNav = (nav) => {

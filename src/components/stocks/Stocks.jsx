@@ -10,7 +10,7 @@ import FormGroup from '../modules/FormGroup';
 import Loading from '../common/Loading';
 import ListStockProducts from './ListStockProducts';
 
-const { wrapper } = styles;
+const { wrapper, dropdown } = styles;
 
 const Stocks = () => {
   const productUpdate = useSelector((state) => state.product.productUpdate.update);
@@ -103,7 +103,9 @@ const Stocks = () => {
     <>
       <InputWrapper>
         <div className={wrapper}>
-          <FormGroup type="select" name="stock" value={initialStock} title="Stock" handleChange={handleChange} options={stockOptions} classname="dropdown" />
+          <div className={dropdown}>
+            <FormGroup type="select" name="stock" value={initialStock} title="Stock" handleChange={handleChange} options={stockOptions} classname="dropdown" />
+          </div>
           <SearchInput handleSearch={handleProductSearch} type="any" title="Search" />
         </div>
       </InputWrapper>

@@ -9,8 +9,8 @@ import styles from './Products.module.scss';
 
 const { wrapper } = styles;
 const Products = () => {
-  const loadProduct = useSelector((state) => state.product.loading);
-  const loading = useSelector((state) => state.category.loading || loadProduct);
+  const loadProduct = useSelector((state) => state.product.fetching);
+  const loading = useSelector((state) => state.category.fetching || loadProduct);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const categories = useSelector((state) => state.category.categories);
@@ -28,7 +28,7 @@ const Products = () => {
     status: item.status,
     selling: parseFloat(item.selling),
     cost: parseFloat(item.cost),
-    quantity: parseInt(item.quantity, 10),
+    quantity: item.quantity,
   }));
 
   const handleProductSearch = (e) => {

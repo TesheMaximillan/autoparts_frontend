@@ -55,6 +55,14 @@ const createProduct = createAsyncThunk(
           isOpen: true,
         }));
       }
+
+      if (error.response.status === 500) {
+        thunkAPI.dispatch(showNotification({
+          message: ['Product Already Exists'],
+          isError: true,
+          isOpen: true,
+        }));
+      }
       setTimeout(() => thunkAPI.dispatch(hideNotification()), 3000);
       return thunkAPI.rejectWithValue(error.response.data);
     }

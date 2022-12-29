@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './AddDetails.module.scss';
+import Notification from './Notification';
 
 const {
   container, actions, ok, cancel, updateField,
@@ -13,6 +14,7 @@ const {
 const AddDetails = ({ items, updateItem }) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
+  const isError = useSelector((state) => state.ui.notification.isError);
   const [id, setId] = useState(0);
   const dispatch = useDispatch();
 
@@ -21,7 +23,7 @@ const AddDetails = ({ items, updateItem }) => {
   };
 
   const handleChange = (e) => {
-    setName(e.target.value);
+    setName(e.target.value.toLowerCase().trim());
   };
 
   const handleClick = (id, name) => {
@@ -42,6 +44,7 @@ const AddDetails = ({ items, updateItem }) => {
   return (
     <div className={container}>
       <h2>Stock Details</h2>
+      {isError && <Notification />}
       <ul>
         {items.map((item) => (
           <>

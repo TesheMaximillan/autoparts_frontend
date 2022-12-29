@@ -9,7 +9,7 @@ import SearchInput from '../modules/SearchInput';
 import ListProduct from '../products/ListProduct';
 import styles from './Categories.module.scss';
 
-const { wrapper } = styles;
+const { wrapper, dropdown } = styles;
 
 const Categories = () => {
   const categories = useSelector((state) => state.category.categories);
@@ -75,7 +75,9 @@ const Categories = () => {
     <>
       <InputWrapper>
         <div className={wrapper}>
-          <FormGroup type="select" name="stock" value={initailCategory || categories[0].id} title="Category" handleChange={handleChange} options={categoryOptions} classname="dropdown" />
+          <div className={dropdown}>
+            <FormGroup type="select" name="stock" value={initailCategory || categories[0].id} title="Category" handleChange={handleChange} options={categoryOptions} classname="dropdown" />
+          </div>
           <SearchInput handleSearch={handleProductSearch} type="any" title="Search" />
         </div>
       </InputWrapper>

@@ -15,6 +15,7 @@ const FormGroup = (props) => {
   return (
     <div className={classtype}>
       <label htmlFor={name}>
+        {!classname && <span>{title}</span>}
         {options ? (
           <select id={name} name={name} value={value} onChange={handleChange} required>
             {options}

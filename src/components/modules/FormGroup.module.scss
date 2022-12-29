@@ -12,17 +12,22 @@
 
 .formGroup {
   display: flex;
-  width: 20%;
+  flex-wrap: wrap;
+  width: 100%;
 
   label {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     width: 100%;
     margin: 0.5rem;
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.2;
     color: var(--color-primary);
+
+    span {
+      width: 13rem;
+    }
 
     input {
       @extend .common-input;

@@ -20,8 +20,8 @@ import styles from './Category.module.scss';
 const { icon } = styles;
 
 const Category = () => {
-  const categories = useSelector((state) => state.category.loading);
-  const products = useSelector((state) => state.product.loading);
+  const categories = useSelector((state) => state.category.fetching);
+  const products = useSelector((state) => state.product.fetching);
   const [active, setActive] = useState('');
 
   const handleNav = (nav) => {

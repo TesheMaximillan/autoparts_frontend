@@ -11,6 +11,7 @@ import Navbar2 from '../components/modules/Navbar2';
 import Navbtn from '../components/modules/Navbtn';
 import RightSidebarWrapper from '../components/common/RightSidebarWrapper';
 import Products from '../components/products/Products';
+import AddProduct from '../components/products/AddProduct';
 
 const { icon } = styles;
 
@@ -39,8 +40,8 @@ const Product = () => {
   ];
 
   const rightSidebar = () => {
-    if (active === 'Add Product') return '<AddProduct />';
-    if (active === 'Product Det.') return '<ProdcutDetails />';
+    if (active === 'New Product') return <AddProduct />;
+    if (active === 'Product Det.') return '';
     return '';
   };
 

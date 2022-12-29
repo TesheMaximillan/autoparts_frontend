@@ -11,6 +11,7 @@ const initialState = {
     stock: {},
   },
   loading: false,
+  fetching: false,
   error: null,
 };
 
@@ -30,14 +31,17 @@ const stockSlice = createSlice({
   extraReducers: {
     [fetchStocks.pending]: (state) => {
       state.loading = true;
+      state.fetching = true;
     },
     [fetchStocks.fulfilled]: (state, { payload }) => {
       state.stocks = payload;
       state.loading = false;
+      state.fetching = false;
     },
     [fetchStocks.rejected]: (state, { payload }) => {
       state.error = payload;
       state.loading = false;
+      state.fetching = false;
     },
     [createStock.pending]: (state) => {
       state.loading = true;

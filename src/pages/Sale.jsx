@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import MainBody from "../components/common/MainBody";
 import MainContainer from "../components/common/MainContainer";
@@ -8,12 +9,31 @@ import Navbar3 from "../components/modules/Navbar3";
 import Navio from "../components/modules/Navio";
 import { FcSalesPerformance } from 'react-icons/fc';
 import Select from 'react-select';
+import { createSale } from "../store/actions/saleActions";
 
 const Sale = () => {
     const sales = useSelector((state) => state.sale.fetching);
-    const products = useSelector((state) => state.product.products);
-    console.log("SALES: ", products)
 
+
+    const products = useSelector((state) => state.product.products);
+    const [Sale,setSale] = useState({
+        productName: '',
+        quantity: 0,
+        unitPrice: 0,
+ });
+    const handleOnchange = (selectedSale) => {
+        const {value} = selectedSale.target;
+        const {name} = selectedSale.target;
+        setSale((selectedSale) => ({...selectedSale,
+            [name] : value,
+         }));
+         console.log("SALE VALUE: *** ", Sale);
+    };
+
+  const HandleAddSale = () => {
+    console.log("SAVED SALE", sales)
+    // createSale(Sale);
+    };
     const navcomp1 = [
         {
             id: 1,
@@ -32,21 +52,21 @@ const Sale = () => {
         {
             id: 1,
             name:'Transaction Number',
-            io: <p>Number</p>
+            io: <p>Num1</p>
         },
         {
             id: 2,
             name: 'Reference Number',
-            io: <p>Ref Number</p>
+            io: <p>Num2</p>
         },{
             id: 3,
             name: 'PO Number',
-            io: <p>PO Number</p>
+            io: <p>Num3</p>
         },
         {
             id: 4,
             name: 'Delivery Number',
-            io: <p>Delivery Number</p>
+            io: <p>Num</p>
         }
     ]
     const navcomp3 = [
@@ -71,32 +91,36 @@ const Sale = () => {
             io: <input type="date" name="date" id="date" />,
         }
     ]
+    const {productName , quantity, unitPrice} = Sale;
     const navcomp4 = [
         {
             id: 1,
-            name: 'Product Name',
+            name: 'productName',
             io: <Select
             options={products}
             getOptionLabel={option => option.name}
             getOptionValue={option => option.id}
+            value={productName}
+            onChange={handleOnchange}
           />,
         },
         {
             id: 2,
             name: 'Quantity',
-            io: <input type="number" name="quantity" id="quantity" />,
+            io: <input type="number" name="quantity" id="quantity" value={quantity} onChange={handleOnchange} />,
         },
         {
             id: 3,
             name: 'Unit Price',
-            io: <input type="number" name="unitPrice" id="unitPrice" />,
+            io: <input type="number" name="unitPrice" id="unitPrice" value={unitPrice} onChange={handleOnchange} />,
         },
         {
             id: 4,
             name: '',
-            io: <button className="bg-black text-white font-bold rounded h-12 w-24 text-3xl">Add</button>
+            io: <button className="bg-black text-white font-bold rounded h-12 w-24 text-3xl" onSubmit={HandleAddSale}>Add</button>
         }
     ]
+    
         return (
             <MainContainer>
             <Sidebar />
@@ -106,26 +130,26 @@ const Sale = () => {
           </Navbar3>
                 </TopBar>
                 <MainBody>
-            <div className="w-full">
-                <div className="flex">
+            <div className="w-full bg-[#eceef3]">
+                <div className="flex gap-20 pt-3 w-96">
                 
-                <div>
+                <div className="flex flex-col gap-[4%] w-full">
             <Navio data={navcomp1[0]} />
             <Navio data={navcomp1[1]} />
                 </div>
-                <div>
+                <div className="flex flex-col gap-[4%]">
             <Navio data={navcomp2[0]} />
             <Navio data={navcomp2[1]} />
             <Navio data={navcomp2[3]} />
             </div>
             </div>
-            <div className="flex">
+            <div className="flex pt-3 pb-3 gap-[2%] w-full">
             <Navio data={navcomp3[0]} />
             <Navio data={navcomp3[1]} />
             <Navio data={navcomp3[2]} />
             <Navio data={navcomp3[3]} />
             </div>
-            <div className="flex">
+            <div className="flex gap-2 w-full">
             <Navio data={navcomp4[0]} />
             <Navio data={navcomp4[1]} />
             <Navio data={navcomp4[2]} />
@@ -141,4 +165,3 @@ const Sale = () => {
         )
 }
 export default Sale;
-

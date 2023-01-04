@@ -8,9 +8,9 @@ const Navio = ({ data }) => {
 
   return (
     <div className='w-full'>
-      <div className='flex'>
-      {name}
-      {io}
+      <div className='flex gap-4'>
+      <div className='w-72'>{name}</div>
+      <div className='w-72'>{io}</div>
       </div>
     </div>
   );

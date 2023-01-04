@@ -7,8 +7,12 @@ import SubContainer from "../components/common/SubContainer";
 import Navbar3 from "../components/modules/Navbar3";
 import Navio from "../components/modules/Navio";
 import { FcSalesPerformance } from 'react-icons/fc';
+import Select from 'react-select';
+
 const Sale = () => {
     const sales = useSelector((state) => state.sale.fetching);
+    const products = useSelector((state) => state.product.products);
+    console.log("SALES: ", products)
 
     const navcomp1 = [
         {
@@ -71,7 +75,11 @@ const Sale = () => {
         {
             id: 1,
             name: 'Product Name',
-            io: <input type="text" name="productName" id="productName" />,
+            io: <Select
+            options={products}
+            getOptionLabel={option => option.name}
+            getOptionValue={option => option.id}
+          />,
         },
         {
             id: 2,
@@ -82,6 +90,11 @@ const Sale = () => {
             id: 3,
             name: 'Unit Price',
             io: <input type="number" name="unitPrice" id="unitPrice" />,
+        },
+        {
+            id: 4,
+            name: '',
+            io: <button className="bg-black text-white font-bold rounded h-12 w-24 text-3xl">Add</button>
         }
     ]
         return (
@@ -116,6 +129,7 @@ const Sale = () => {
             <Navio data={navcomp4[0]} />
             <Navio data={navcomp4[1]} />
             <Navio data={navcomp4[2]} />
+            <Navio data={navcomp4[3]} />
             </div>
                 {/* <MainBody>
                

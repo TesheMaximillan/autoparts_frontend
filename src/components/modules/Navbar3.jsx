@@ -10,7 +10,6 @@ const Navbar3 = ({children, title, icon }) => (
       <div className="flex text-[24px] text-white items-center gap-3" >
          {icon}  
         {title}
-       
       </div>
       <LogoutBtn />
     </div>

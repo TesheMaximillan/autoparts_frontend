@@ -28,7 +28,7 @@ const Sidebar = () => {
       id: 8, name: 'Stocks', path: '/stocks', icon: <FaStore />,
     },
     {
-      id: 4, name: 'Sales', path: '', icon: <FcSalesPerformance />,
+      id: 4, name: 'Sales', path: '/sales', icon: <FcSalesPerformance />,
     },
     {
       id: 5, name: 'Purchases', path: '', icon: <BiPurchaseTag />,
@@ -62,8 +62,10 @@ const Sidebar = () => {
           {links.map((link) => (
             <li key={link.id}>
               <Link to={link.path} className={classname(link.path)}>
+                <div className='flex'>
                 <span>{link.icon}</span>
                 {link.name}
+                </div>
               </Link>
             </li>
           ))}

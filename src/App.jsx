@@ -12,6 +12,7 @@ import Product from './pages/Product';
 import Register from './pages/Register';
 import Stock from './pages/Stock';
 import Vendor from './pages/Vendor';
+import Sale from './pages/Sale';
 import { fetchCategories } from './store/actions/categoryActions';
 import { fetchCustomers } from './store/actions/customerActions';
 import { fetchProducts, fetchStocksProducts } from './store/actions/productActions';
@@ -75,6 +76,7 @@ const App = () => {
             <Route path="/stocks" element={<Stock />} />
             <Route path="/customers" element={<Customer />} />
             <Route path="/vendors" element={<Vendor />} />
+            <Route path="/sales" element={<Sale/>} />
           </Route>
         </Routes>
       </Router>

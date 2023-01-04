@@ -76,33 +76,52 @@ const Sale = () => {
         {
             id: 2,
             name: 'Quantity',
-            io: <input type="text" name="quantity" id="quantity" />,
+            io: <input type="number" name="quantity" id="quantity" />,
         },
         {
             id: 3,
             name: 'Unit Price',
-            io: <input type="text" name="unitPrice" id="unitPrice" />,
+            io: <input type="number" name="unitPrice" id="unitPrice" />,
         }
     ]
         return (
             <MainContainer>
             <Sidebar />
           <SubContainer>
-                <TopBar>
-                    
+            <TopBar>  
             <Navbar3 title="Sales" icon={<FcSalesPerformance />}>
+          </Navbar3>
+                </TopBar>
+                <MainBody>
+            <div className="w-full">
+                <div className="flex">
+                
+                <div>
             <Navio data={navcomp1[0]} />
             <Navio data={navcomp1[1]} />
-          </Navbar3>
-        <div>
+                </div>
+                <div>
             <Navio data={navcomp2[0]} />
             <Navio data={navcomp2[1]} />
+            <Navio data={navcomp2[3]} />
             </div>
-          
-                </TopBar>
+            </div>
+            <div className="flex">
+            <Navio data={navcomp3[0]} />
+            <Navio data={navcomp3[1]} />
+            <Navio data={navcomp3[2]} />
+            <Navio data={navcomp3[3]} />
+            </div>
+            <div className="flex">
+            <Navio data={navcomp4[0]} />
+            <Navio data={navcomp4[1]} />
+            <Navio data={navcomp4[2]} />
+            </div>
                 {/* <MainBody>
                
                     </MainBody> */}
+                    </div>
+                    </MainBody>
                 </SubContainer>
             </MainContainer>
         )

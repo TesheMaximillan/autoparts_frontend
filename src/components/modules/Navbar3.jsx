@@ -7,9 +7,10 @@ const Navbar3 = ({children, title, icon }) => (
   <div className='flex flex-col'>
   <div className={container}>
     <div className={header}>
-      <div className="flex">
+      <div className="flex text-[24px] text-white items-center gap-3" >
+         {icon}  
         {title}
-        {icon}
+       
       </div>
       <LogoutBtn />
     </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import MainBody from "../components/common/MainBody";
 import MainContainer from "../components/common/MainContainer";
 import Sidebar from "../components/common/Sidebar";
@@ -10,8 +10,10 @@ import Navio from "../components/modules/Navio";
 import { FcSalesPerformance } from 'react-icons/fc';
 import Select from 'react-select';
 import { createSale } from "../store/actions/saleActions";
+import ListSales from "../components/sales/ListSales";
 
 const Sale = () => {
+    const dispatch = useDispatch();
     const sales = useSelector((state) => state.sale.fetching);
 
 
@@ -35,7 +37,7 @@ const Sale = () => {
             const quantity = 'quantity';
             const selling= 'unitPrice';
             setSale((currentSale) => ({...currentSale,
-              [productname] : value.name ,
+              [productname] : value.id ,
                 [quantity] : value.quantity,
                 [selling] : value.selling,
             }));
@@ -43,7 +45,7 @@ const Sale = () => {
     };
  const handleSubmit = (e) => {
     e.preventDefault();
-    createSale(Sale);
+    dispatch(createSale(Sale));
     console.log("SAVED SALE", sales)
     };
     const navcomp1 = [
@@ -142,7 +144,8 @@ const Sale = () => {
           </Navbar3>
                 </TopBar>
                 <MainBody>
-            <form className="flex flex-col w-full bg-[#eceef3]" onSubmit={handleSubmit}>
+                    <div className="flex flex-col">
+            <form className="flex flex-col w-full bg-[#eceef3] mb-12 " onSubmit={handleSubmit}>
                 <div className="flex gap-20 pt-3 w-96">
                 
                 <div className="flex flex-col gap-[4%] w-full">
@@ -171,8 +174,13 @@ const Sale = () => {
                
                     </MainBody> */}
                     </form>
+                    <div  className="bg-[#ECEEF3]">
+                    <ListSales />
+                    </div>
+                    </div>
                     </MainBody>
                 </SubContainer>
+                
             </MainContainer>
         )
 }

@@ -27,12 +27,24 @@ const Sale = () => {
         setSale((selectedSale) => ({...selectedSale,
             [name] : value,
          }));
-         console.log("SALE VALUE: *** ", Sale);
     };
-
-  const HandleAddSale = () => {
+    const handleSelectChange = (selectedOption) => {
+        if (selectedOption) {
+            const value = selectedOption;
+            const productname = 'productName';
+            const quantity = 'quantity';
+            const selling= 'unitPrice';
+            setSale((currentSale) => ({...currentSale,
+              [productname] : value.name ,
+                [quantity] : value.quantity,
+                [selling] : value.selling,
+            }));
+          }
+    };
+ const handleSubmit = (e) => {
+    e.preventDefault();
+    createSale(Sale);
     console.log("SAVED SALE", sales)
-    // createSale(Sale);
     };
     const navcomp1 = [
         {
@@ -73,17 +85,17 @@ const Sale = () => {
         {
             id: 1,
             name: 'OtherCost',
-            io: <p>Mark</p>,
+            io: <input type="checkbox" name="otherCost" />,
         },
         {
             id: 2,
             name: 'withold',
-            io: <p>Mark</p>,
+            io: <input type="checkbox" name="withold" />,
         },
         {
             id: 3,
             name: 'Vat',
-            io: <p>Mark</p>,
+            io: <input type="checkbox" name="vat" />,
         },
         {
             id: 4,
@@ -97,27 +109,27 @@ const Sale = () => {
             id: 1,
             name: 'productName',
             io: <Select
+            name="productName"
             options={products}
             getOptionLabel={option => option.name}
             getOptionValue={option => option.id}
-            value={productName}
-            onChange={handleOnchange}
+            onChange={handleSelectChange}
           />,
         },
         {
             id: 2,
             name: 'Quantity',
-            io: <input type="number" name="quantity" id="quantity" value={quantity} onChange={handleOnchange} />,
+            io: <input type="number" name="quantity" id="quantity" min="1" max={Sale.quantity} value={quantity} onChange={handleOnchange} />,
         },
         {
             id: 3,
             name: 'Unit Price',
-            io: <input type="number" name="unitPrice" id="unitPrice" value={unitPrice} onChange={handleOnchange} />,
+            io: <input type="number" name="unitPrice" id="unitPrice" value={unitPrice} min={Sale.unitPrice} onChange={handleOnchange} />,
         },
         {
             id: 4,
             name: '',
-            io: <button className="bg-black text-white font-bold rounded h-12 w-24 text-3xl" onSubmit={HandleAddSale}>Add</button>
+            io: <button type="submit" className="bg-black text-white font-bold rounded h-12 w-24 text-3xl" >Add</button>
         }
     ]
     
@@ -130,26 +142,26 @@ const Sale = () => {
           </Navbar3>
                 </TopBar>
                 <MainBody>
-            <div className="w-full bg-[#eceef3]">
+            <form className="flex flex-col w-full bg-[#eceef3]" onSubmit={handleSubmit}>
                 <div className="flex gap-20 pt-3 w-96">
                 
                 <div className="flex flex-col gap-[4%] w-full">
             <Navio data={navcomp1[0]} />
             <Navio data={navcomp1[1]} />
                 </div>
-                <div className="flex flex-col gap-[4%]">
+                <div className="flex flex-col">
             <Navio data={navcomp2[0]} />
             <Navio data={navcomp2[1]} />
             <Navio data={navcomp2[3]} />
             </div>
             </div>
-            <div className="flex pt-3 pb-3 gap-[2%] w-full">
+            <div className="flex pt-3 pb-3 w-full flex-wrap">
             <Navio data={navcomp3[0]} />
             <Navio data={navcomp3[1]} />
             <Navio data={navcomp3[2]} />
             <Navio data={navcomp3[3]} />
             </div>
-            <div className="flex gap-2 w-full">
+            <div className="flex gap-2 w-full flex-wrap">
             <Navio data={navcomp4[0]} />
             <Navio data={navcomp4[1]} />
             <Navio data={navcomp4[2]} />
@@ -158,7 +170,7 @@ const Sale = () => {
                 {/* <MainBody>
                
                     </MainBody> */}
-                    </div>
+                    </form>
                     </MainBody>
                 </SubContainer>
             </MainContainer>

@@ -11,16 +11,15 @@ import { FcSalesPerformance } from 'react-icons/fc';
 import Select from 'react-select';
 import { createSale } from "../store/actions/saleActions";
 import ListSales from "../components/sales/ListSales";
+import AddSales from "../components/sales/AddSales";
 
 const Sale = () => {
     const dispatch = useDispatch();
     const sales = useSelector((state) => state.sale.fetching);
-
-
     const products = useSelector((state) => state.product.products);
     const [Sale,setSale] = useState({
         productName: '',
-        quantity: 0,
+        quantity: 1,
         unitPrice: 0,
  });
     const handleOnchange = (selectedSale) => {
@@ -46,7 +45,6 @@ const Sale = () => {
  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createSale(Sale));
-    console.log("SAVED SALE", sales)
     };
     const navcomp1 = [
         {
@@ -105,36 +103,6 @@ const Sale = () => {
             io: <input type="date" name="date" id="date" />,
         }
     ]
-    const {productName , quantity, unitPrice} = Sale;
-    const navcomp4 = [
-        {
-            id: 1,
-            name: 'productName',
-            io: <Select
-            name="productName"
-            options={products}
-            getOptionLabel={option => option.name}
-            getOptionValue={option => option.id}
-            onChange={handleSelectChange}
-          />,
-        },
-        {
-            id: 2,
-            name: 'Quantity',
-            io: <input type="number" name="quantity" id="quantity" min="1" max={Sale.quantity} value={quantity} onChange={handleOnchange} />,
-        },
-        {
-            id: 3,
-            name: 'Unit Price',
-            io: <input type="number" name="unitPrice" id="unitPrice" value={unitPrice} min={Sale.unitPrice} onChange={handleOnchange} />,
-        },
-        {
-            id: 4,
-            name: '',
-            io: <button type="submit" className="bg-black text-white font-bold rounded h-12 w-24 text-3xl" >Add</button>
-        }
-    ]
-    
         return (
             <MainContainer>
             <Sidebar />
@@ -164,18 +132,17 @@ const Sale = () => {
             <Navio data={navcomp3[2]} />
             <Navio data={navcomp3[3]} />
             </div>
+            </form>
             <div className="flex gap-2 w-full flex-wrap">
-            <Navio data={navcomp4[0]} />
-            <Navio data={navcomp4[1]} />
-            <Navio data={navcomp4[2]} />
-            <Navio data={navcomp4[3]} />
+            <AddSales/>
             </div>
                 {/* <MainBody>
                
                     </MainBody> */}
-                    </form>
+                  
                     <div  className="bg-[#ECEEF3]">
-                    <ListSales />
+                        
+                   
                     </div>
                     </div>
                     </MainBody>

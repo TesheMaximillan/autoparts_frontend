@@ -6,7 +6,10 @@ const {
   container,
 } = styles;
 
-const ListSales = () => {
+const ListSales = (Props) => {
+  const {products} = Props;
+ console.log("LIST SALES ...", products)
+ console.log("IS PRODUCTS AN ARRAY",  products.isArray)
   return (
     <div className={container}>
       <table>
@@ -20,6 +23,12 @@ const ListSales = () => {
           </tr>
         </thead>
         <tbody>
+          {products.productName != "" ?  Object.keys(products).map((product, i) => (
+          <tr  key={i}>
+            <td>{i}</td>
+            <td colSpan={i}> {products[product]}</td>
+            </tr>
+          )) : <tr><td colSpan="5">No Sales</td></tr>}
         </tbody>
       </table>
     </div>

@@ -17,46 +17,42 @@ const Sale = () => {
     const dispatch = useDispatch();
     const sales = useSelector((state) => state.sale.fetching);
     const products = useSelector((state) => state.product.products);
-    const [Sale,setSale] = useState({
-        productName: '',
-        quantity: 1,
-        unitPrice: 0,
+    const [transaction,settransaction] = useState({
+        customer: '',
+        recivedBy: '',
+        transactionNumber: '',
+        referenceNumber: '',
+        poNumber: '',
+        deliveryNumber: '',
+        othercost: false,
+        withold: false,
+        vat: false,
+        date: '',
  });
     const handleOnchange = (selectedSale) => {
         const {value} = selectedSale.target;
         const {name} = selectedSale.target;
-        setSale((selectedSale) => ({...selectedSale,
+        settransaction((selectedtransaction) => ({...selectedtransaction,
             [name] : value,
          }));
-    };
-    const handleSelectChange = (selectedOption) => {
-        if (selectedOption) {
-            const value = selectedOption;
-            const productname = 'productName';
-            const quantity = 'quantity';
-            const selling= 'unitPrice';
-            setSale((currentSale) => ({...currentSale,
-              [productname] : value.id ,
-                [quantity] : value.quantity,
-                [selling] : value.selling,
-            }));
-          }
+         console.log("*** Transaction: ***", transaction);
     };
  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createSale(Sale));
     };
+    const {customer,recivedBy,transactionNumber,referenceNumber,poNumber,deliveryNumber,othercost,withold,vat,date} = transaction;
     const navcomp1 = [
         {
             id: 1,
             name: 'Customer Name',
-            io: <input type="text" name="customerName" id="customerName" />,
+            io: <input type="text" value={customer} onChange={handleOnchange} name="customer" id="customerName" />,
 
         },
         {
             id: 2,
             name: 'Recived By',
-            io: <input type="text" name="recivedBy" id="recivedBy" />
+            io: <input type="text" value={recivedBy} onChange={handleOnchange} name="recivedBy" id="recivedBy" />
         }
     ]
     const navcomp2 = [
@@ -64,43 +60,43 @@ const Sale = () => {
         {
             id: 1,
             name:'Transaction Number',
-            io: <p>Num1</p>
+            io: <p>{transactionNumber}</p>
         },
         {
             id: 2,
             name: 'Reference Number',
-            io: <p>Num2</p>
+            io: <p>{referenceNumber}</p>
         },{
             id: 3,
             name: 'PO Number',
-            io: <p>Num3</p>
+            io: <p>{poNumber}</p>
         },
         {
             id: 4,
             name: 'Delivery Number',
-            io: <p>Num</p>
+            io: <p>{deliveryNumber}</p>
         }
     ]
     const navcomp3 = [
         {
             id: 1,
             name: 'OtherCost',
-            io: <input type="checkbox" name="otherCost" />,
+            io: <input value={othercost} onChange={handleOnchange} type="checkbox" name="othercost" />,
         },
         {
             id: 2,
             name: 'withold',
-            io: <input type="checkbox" name="withold" />,
+            io: <input value={withold} onChange={handleOnchange} type="checkbox" name="withold" />,
         },
         {
             id: 3,
             name: 'Vat',
-            io: <input type="checkbox" name="vat" />,
+            io: <input value={vat} onChange={handleOnchange} type="checkbox" name="vat" />,
         },
         {
             id: 4,
             name: 'Date',
-            io: <input type="date" name="date" id="date" />,
+            io: <input value={date} onChange={handleOnchange} type="date" name="date" id="date" />,
         }
     ]
         return (
@@ -133,16 +129,12 @@ const Sale = () => {
             <Navio data={navcomp3[3]} />
             </div>
             </form>
-            <div className="flex gap-2 w-full flex-wrap">
             <AddSales/>
-            </div>
                 {/* <MainBody>
                
                     </MainBody> */}
                   
                     <div  className="bg-[#ECEEF3]">
-                        
-                   
                     </div>
                     </div>
                     </MainBody>

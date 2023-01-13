@@ -8,8 +8,7 @@ const {
 
 const ListSales = (Props) => {
   const {products} = Props;
- console.log("LIST SALES ...", products)
- console.log("IS PRODUCTS AN ARRAY",  products.isArray)
+  console.log("** PRODUCTS LIST*****", products)
   return (
     <div className={container}>
       <table>
@@ -23,10 +22,13 @@ const ListSales = (Props) => {
           </tr>
         </thead>
         <tbody>
-          {products.productName != "" ?  Object.keys(products).map((product, i) => (
+          {products.productName != "" ?  Object.keys(products).slice(0, (Object.keys(products).length/3)).map((product, i) => (
           <tr  key={i}>
-            <td>{i}</td>
-            <td colSpan={i}> {products[product]}</td>
+            <td>{i+1}</td>
+            <td> {products.productName}</td>
+            <td>{products.quantity}</td>
+            <td>{products.unitPrice}</td>
+            <td>{products.quantity*products.unitPrice}</td>
             </tr>
           )) : <tr><td colSpan="5">No Sales</td></tr>}
         </tbody>

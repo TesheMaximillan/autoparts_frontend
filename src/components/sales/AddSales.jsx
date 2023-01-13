@@ -6,7 +6,7 @@ import styles from "../stocks/TransferStock.module.scss";
 import ListSales from "./ListSales";
 import { hideNotification, showNotification } from "../../store/reducers/uiReducers";
 import Notification from "../common/Notification";
-
+import Addtransctions from "./Addtransctions";
 
 const { form, container, formContainer, input, inputDate, inputp, inputq } =
   styles;
@@ -94,8 +94,10 @@ setSale({
   const { productName, quantity, unitPrice } = Sale;
   return (
     <>
+    
      {isError && <Notification />}
       <form onSubmit={handleSubmit}>
+      <Addtransctions/>
         <div >
           <div className="flex">
             <label>Product Name</label>

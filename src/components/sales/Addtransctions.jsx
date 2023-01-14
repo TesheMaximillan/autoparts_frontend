@@ -1,13 +1,11 @@
-import React,  { useState } from 'react'
+import React,  { useState , forwardRef, useImperativeHandle} from 'react'
 import { useDispatch, useSelector  } from 'react-redux';
 import { FcSalesPerformance } from 'react-icons/fc';
 import Navbar3 from '../modules/Navbar3';
 import Navio from '../modules/Navio';
 import TopBar from "../common/Topbar";
 
-
-
-const Addtransctions = () => {
+const Addtransctions = (props, ref) => {
     const dispatch = useDispatch();
     const sales = useSelector((state) => state.sale.fetching);
     const products = useSelector((state) => state.product.products);
@@ -23,6 +21,15 @@ const Addtransctions = () => {
         vat: false,
         date: '',
  });
+ 
+ const handleSubmit = () => {
+    console.log("Transaction HANDLE SUBMIT CALLED SUCESSSSSS", transaction);
+ }
+
+    useImperativeHandle(ref, () => ({
+        handleSubmit
+      }));
+ const [sendTransaction, setSendTransaction] = useState({});
     const handleOnchange = (selectedSale) => {
         const {value} = selectedSale.target;
         const {name} = selectedSale.target;
@@ -30,10 +37,6 @@ const Addtransctions = () => {
             [name] : value,
          }));
          console.log("*** Transaction: ***", transaction);
-    };
- const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createSale(Sale));
     };
     const {customer,recivedBy,transactionNumber,referenceNumber,poNumber,deliveryNumber,othercost,withold,vat,date} = transaction;
     const navcomp1 = [
@@ -90,7 +93,7 @@ const Addtransctions = () => {
         {
             id: 4,
             name: 'Date',
-            io: <input value={date} onChange={handleOnchange} type="date" name="date" id="date" />,
+            io: <input  value={date} onChange={handleOnchange} type="date" name="date" id="date" />,
         }
     ]
   return (
@@ -99,7 +102,7 @@ const Addtransctions = () => {
             <Navbar3 title="Sales" icon={<FcSalesPerformance />}>
           </Navbar3>
                 </TopBar>
-            <div className="flex flex-col w-full bg-[#eceef3] mb-12 " onSubmit={handleSubmit}>
+            <div className="flex flex-col w-full bg-[#eceef3] mb-12 ">
                 <div className="flex gap-20 pt-3 w-96">
                 
                 <div className="flex flex-col gap-[4%] w-full">
@@ -122,4 +125,4 @@ const Addtransctions = () => {
     </div>
   )
 }
-export default Addtransctions;
+export default forwardRef(Addtransctions);

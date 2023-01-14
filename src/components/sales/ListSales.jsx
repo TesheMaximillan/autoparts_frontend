@@ -9,7 +9,9 @@ const {
 const ListSales = (Props) => {
   const {products} = Props;
   console.log("** PRODUCTS LIST*****", products)
+  let subTotal = 0;
   return (
+    <div className='flex flex-col gap-6'>
     <div className={container}>
       <table>
         <thead>
@@ -22,7 +24,7 @@ const ListSales = (Props) => {
           </tr>
         </thead>
         <tbody>
-          {products.productName != "" ?  Object.keys(products).slice(0, (Object.keys(products).length/3)).map((product, i) => (
+          {Object.keys(products).length !== 0 ?  Object.keys(products).slice(0, (Object.keys(products).length/3)).map((product, i) => (
           <tr  key={i}>
             <td>{i+1}</td>
             <td> {products.productName}</td>
@@ -33,6 +35,28 @@ const ListSales = (Props) => {
           )) : <tr><td colSpan="5">No Sales</td></tr>}
         </tbody>
       </table>
+      
+    </div>
+    <table className='mt-16 w-[25%] self-end'>
+        
+          <tr>
+            <td>Sub Total</td>
+            <td>{subTotal}</td>
+            </tr>
+            <tr>
+            <td>Vat</td>
+            </tr>
+            <tr>
+            <td>Wihold</td>
+            </tr>
+            <tr>
+            <td>Other Costs</td>
+            </tr>
+            <tr>
+            <td>Total Price</td>
+            </tr>
+      </table>
+      
     </div>
   );
 };

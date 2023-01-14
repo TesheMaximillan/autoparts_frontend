@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useRef } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import TransferProductList from "../stocks/TransferProductList";
 import styles from "../stocks/TransferStock.module.scss";
@@ -12,6 +13,7 @@ const { form, container, formContainer, input, inputDate, inputp, inputq } =
   styles;
 
 const AddSales = () => {
+  const ref = useRef();
   const dispatch = useDispatch();
   const productsData = useSelector((state) => state.product.products);
   const [Sale, setSale] = useState({
@@ -69,11 +71,12 @@ setSale({
   const handleInputBlur = () => {
     setFocus(false);
   };
-
+  const addTransactionRef = useRef(null);
   const handleSubmit = (e) => {
     e.preventDefault();
+    addTransactionRef.current.handleSubmit();
     if(filteredProducts.length !== 0) {  
-      setSendSale({ ...sendSale, productName: Sale.productName,quantity: Sale.quantity,unitPrice: Sale.unitPrice })
+      setSendSale({ ...sendSale, productName: Sale.productName,quantity: Sale.quantity,unitPrice: Sale.unitPrice,...subtotal, subtotal: Sale.quantity * Sale.unitPrice })
       console.log("On Submit DataSAVED....SendSale: ", sendSale);
     }
     else{
@@ -97,7 +100,7 @@ setSale({
     
      {isError && <Notification />}
       <form onSubmit={handleSubmit}>
-      <Addtransctions/>
+      <Addtransctions ref={addTransactionRef} />
         <div >
           <div className="flex">
             <label>Product Name</label>

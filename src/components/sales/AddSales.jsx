@@ -13,7 +13,7 @@ const { form, container, formContainer, input, inputDate, inputp, inputq } =
   styles;
 
 const AddSales = () => {
-  const ref = useRef();
+  const ref = useRef(null);
   const dispatch = useDispatch();
   const productsData = useSelector((state) => state.product.products);
   const [Sale, setSale] = useState({
@@ -74,10 +74,10 @@ setSale({
   const addTransactionRef = useRef(null);
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTransactionRef.current.handleSubmit();
     if(filteredProducts.length !== 0) {  
-      setSendSale({ ...sendSale, productName: Sale.productName,quantity: Sale.quantity,unitPrice: Sale.unitPrice,...subtotal, subtotal: Sale.quantity * Sale.unitPrice })
+      setSendSale({ ...sendSale, productName: Sale.productName,quantity: Sale.quantity,unitPrice: Sale.unitPrice, subtotal: Sale.quantity * Sale.unitPrice })
       console.log("On Submit DataSAVED....SendSale: ", sendSale);
+      ref.current.handletransaction();
     }
     else{
       const message = "Please select a product";
@@ -93,14 +93,18 @@ setSale({
     setFocus(true);
   };
   console.log("filteredProducts: ", filteredProducts);
- 
+ const handleButtonClick = () => {
+    // Call the child component's method
+    ref.current.handleSubmit();
+  }
+
   const { productName, quantity, unitPrice } = Sale;
   return (
     <>
     
      {isError && <Notification />}
       <form onSubmit={handleSubmit}>
-      <Addtransctions ref={addTransactionRef} />
+      <Addtransctions ref={ref}/>
         <div >
           <div className="flex">
             <label>Product Name</label>
@@ -153,6 +157,7 @@ setSale({
         )}
       </div>
       <ListSales products={sendSale}/>
+      <button type="submit" onClick={handleButtonClick} className=" w-20 h-20 text-xl self-end">Add Sale</button>
     </>
   );
 };

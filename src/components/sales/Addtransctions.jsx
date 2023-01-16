@@ -1,6 +1,7 @@
 import React,  { useState , forwardRef, useImperativeHandle} from 'react'
 import { useDispatch, useSelector  } from 'react-redux';
 import { FcSalesPerformance } from 'react-icons/fc';
+import { createTransactions } from '../../store/actions/TransactionActions';
 import Navbar3 from '../modules/Navbar3';
 import Navio from '../modules/Navio';
 import TopBar from "../common/Topbar";
@@ -12,24 +13,47 @@ const Addtransctions = (props, ref) => {
     const [transaction,settransaction] = useState({
         customer: '',
         recivedBy: '',
-        transactionNumber: '',
-        referenceNumber: '',
-        poNumber: '',
-        deliveryNumber: '',
-        othercost: true,
-        withold: false,
-        vat: false,
-        date: '',
+        transactionNumber: 'T1',
+        referenceNumber: 'G10',
+        poNumber: 'PO1',
+        deliveryNumber: 'D40',
+        othercost: 1,
+        withold: 1,
+        vat: 1,
+        date: new Date().toISOString().slice(0, 10),
+        status: 'cash',
  });
+ const [sendTransaction, setSendTransaction] = useState({});
+
+const handletransaction = () => {
+    setSendTransaction({...setSendTransaction, 
+        customer: transaction.customer,
+        received_by: transaction.recivedBy,
+        transaction_number: transaction.transactionNumber,
+        reference_number: transaction.referenceNumber,
+        po_number: transaction.poNumber,
+        delivery_number: transaction.deliveryNumber,
+        other_costs: transaction.othercost,
+        withold: transaction.withold,
+        vat: transaction.vat,
+        date: transaction.date,
+        status: transaction.status,
+            })
+}
+ const handleSubmit = async () => {
  
- const handleSubmit = () => {
-    console.log("Transaction HANDLE SUBMIT CALLED SUCESSSSSS", transaction);
+    console.log("Transaction HANDLE SUBMIT CALLED SUCESSSSSS SENDING date to back-end", transaction);
+   
+        dispatch(createTransactions(sendTransaction));
+   
  }
 
     useImperativeHandle(ref, () => ({
-        handleSubmit
+        handleSubmit,
+        handletransaction
       }));
- const [sendTransaction, setSendTransaction] = useState({});
+      
+
     const handleOnchange = (selectedSale) => {
         const {value} = selectedSale.target;
         const {name} = selectedSale.target;

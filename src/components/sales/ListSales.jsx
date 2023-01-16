@@ -45,6 +45,7 @@ const ListSales = (Props) => {
             </tr>
             <tr>
             <td>Vat</td>
+            {products.vat ? <td>{subTotal*0.15}</td> : <td>0</td>}
             </tr>
             <tr>
             <td>Wihold</td>
